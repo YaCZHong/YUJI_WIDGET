@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="80dp"
+    android:orientation="vertical"
+    android:paddingHorizontal="8dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextClock
+            android:id="@+id/tv_hour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:format12Hour="h"
+            android:format24Hour="HH"
+            android:includeFontPadding="false"
+            android:textColor="@color/white"
+            android:textSize="50sp" />
+
+        <TextView
+            android:id="@+id/line_hour_minute"
+            android:layout_width="4dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginHorizontal="8dp"
+            android:layout_toEndOf="@id/tv_hour"
+            android:background="@drawable/line_vertical"
+            android:includeFontPadding="false" />
+
+        <TextClock
+            android:id="@+id/tv_minute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/line_hour_minute"
+            android:format12Hour="mm"
+            android:format24Hour="mm"
+            android:includeFontPadding="false"
+            android:textColor="@color/white"
+            android:textSize="50sp" />
+
+        <TextClock
+            android:id="@+id/tv_am"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/tv_minute"
+            android:layout_marginStart="6dp"
+            android:layout_toEndOf="@id/tv_minute"
+            android:format12Hour="aa"
+            android:format24Hour=""
+            android:includeFontPadding="false"
+            android:textColor="@color/color_DDFFFFFF"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/tv_temp"
+            android:layout_toStartOf="@id/iv_weather"
+            android:includeFontPadding="false"
+            android:text="天河区"
+            android:textColor="@color/color_DDFFFFFF"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/tv_minute"
+            android:layout_alignEnd="@id/tv_city"
+            android:includeFontPadding="false"
+            android:text="29℃"
+            android:textColor="@color/color_DDFFFFFF"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/iv_weather"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignBottom="@id/tv_minute"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="8dp"
+            android:src="@mipmap/ic_weather_duoyun" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextClock
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="2dp"
+            android:format12Hour="MM月dd日 EEEE"
+            android:format24Hour="MM月dd日 EEEE"
+            android:includeFontPadding="false"
+            android:textColor="@color/color_DDFFFFFF"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
+</LinearLayout>
