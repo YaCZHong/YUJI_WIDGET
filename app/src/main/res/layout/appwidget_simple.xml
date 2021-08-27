@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:gravity="center_vertical"
     android:minHeight="80dp"
     android:orientation="vertical"
     android:paddingHorizontal="8dp">
@@ -94,7 +95,7 @@
             android:layout_alignParentEnd="true"
             android:includeFontPadding="false"
             android:textColor="@color/color_DDFFFFFF"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
     </RelativeLayout>
 
     <TextClock

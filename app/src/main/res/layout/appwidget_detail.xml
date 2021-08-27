@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:minHeight="160dp"
+    android:orientation="vertical"
+    android:paddingHorizontal="8dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="64dp">
+
+        <TextClock
+            android:id="@+id/tv_hour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:format12Hour="h"
+            android:format24Hour="HH"
+            android:includeFontPadding="false"
+            android:textColor="@color/white"
+            android:textSize="50sp" />
+
+        <TextView
+            android:id="@+id/line_hour_minute"
+            android:layout_width="4dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginHorizontal="8dp"
+            android:layout_toEndOf="@id/tv_hour"
+            android:background="@drawable/line_vertical"
+            android:includeFontPadding="false" />
+
+        <TextClock
+            android:id="@+id/tv_minute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/line_hour_minute"
+            android:format12Hour="mm"
+            android:format24Hour="mm"
+            android:includeFontPadding="false"
+            android:textColor="@color/white"
+            android:textSize="50sp" />
+
+        <TextClock
+            android:id="@+id/tv_am"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/tv_city"
+            android:layout_marginStart="6dp"
+            android:layout_toEndOf="@id/tv_minute"
+            android:format12Hour="aa"
+            android:format24Hour=""
+            android:includeFontPadding="false"
+            android:textColor="@color/color_DDFFFFFF"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/tv_minute"
+            android:layout_marginStart="6dp"
+            android:layout_toEndOf="@id/tv_minute"
+            android:includeFontPadding="false"
+            android:textColor="@color/color_DDFFFFFF"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
+
+    <TextClock
+        android:id="@+id/tv_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:format12Hour="M月dd日 EEEE"
+        android:format24Hour="M月dd日 EEEE"
+        android:includeFontPadding="false"
+        android:textColor="@color/color_DDFFFFFF"
+        android:textSize="14sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="66dp"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="2">
+
+            <TextView
+                android:id="@+id/tv_temp_now"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:textColor="@color/white"
+                android:textSize="36sp" />
+
+            <TextView
+                android:id="@+id/tv_temp_range"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_temp_now"
+                android:layout_marginTop="8dp"
+                android:includeFontPadding="false"
+                android:textColor="@color/color_DDFFFFFF"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:id="@+id/iv_weather_now"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_alignTop="@id/tv_temp_now"
+                android:layout_marginStart="8dp"
+                android:layout_toEndOf="@id/tv_temp_now" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_date_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:includeFontPadding="false"
+                android:text="09-12"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:id="@+id/iv_weather_2"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_below="@id/tv_date_2"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
+                android:src="@drawable/ic_weather_qingtian" />
+
+            <TextView
+                android:id="@+id/tv_temp_range_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv_weather_2"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
+                android:includeFontPadding="false"
+                android:text="35/29"
+                android:textColor="@color/color_DDFFFFFF"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_date_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:includeFontPadding="false"
+                android:text="09-12"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:id="@+id/iv_weather_3"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_below="@id/tv_date_3"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
+                android:src="@drawable/ic_weather_dalei" />
+
+            <TextView
+                android:id="@+id/tv_temp_range_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv_weather_3"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
+                android:includeFontPadding="false"
+                android:text="35/29"
+                android:textColor="@color/color_DDFFFFFF"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_date_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:includeFontPadding="false"
+                android:text="09-12"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:id="@+id/iv_weather_4"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_below="@id/tv_date_4"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
+                android:src="@drawable/ic_weather_taiyangyu" />
+
+            <TextView
+                android:id="@+id/tv_temp_range_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv_weather_4"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
+                android:includeFontPadding="false"
+                android:text="35/29"
+                android:textColor="@color/color_DDFFFFFF"
+                android:textSize="12sp" />
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>
