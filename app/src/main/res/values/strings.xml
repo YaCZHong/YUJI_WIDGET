@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">YUJI_WIDGET</string>
+    <string name="app_name">雨季</string>
+
+    <string name="loading">请稍候...</string>
 </resources>

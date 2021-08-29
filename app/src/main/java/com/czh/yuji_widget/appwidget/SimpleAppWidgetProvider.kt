@@ -6,7 +6,7 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
-import com.czh.yuji_widget.MainActivity
+import com.czh.yuji_widget.activity.MainActivity
 import com.czh.yuji_widget.R
 
 class SimpleAppWidgetProvider : AppWidgetProvider() {
@@ -21,7 +21,7 @@ class SimpleAppWidgetProvider : AppWidgetProvider() {
             }
             val remoteViews = RemoteViews(context.packageName, R.layout.appwidget_simple).apply {
                 setOnClickPendingIntent(R.id.tv_jump, pendingIntent)
-                setImageViewResource(R.id.iv_weather, R.drawable.ic_weather_duoyun)
+                setImageViewResource(R.id.iv_weather, R.drawable.ic_100)
                 setTextViewText(R.id.tv_temp, "29℃")
                 setTextViewText(R.id.tv_city, "天河区")
             }
