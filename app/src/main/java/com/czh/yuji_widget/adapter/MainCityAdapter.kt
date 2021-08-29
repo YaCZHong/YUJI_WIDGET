@@ -39,7 +39,7 @@ class MainCityAdapter(private val listener: OnItemClickListener<MyWeatherCity>) 
         RecyclerView.ViewHolder(view) {
         private val tvCity: TextView = itemView.findViewById(R.id.tv_city)
         private val tvWeatherNow: TextView = itemView.findViewById(R.id.tv_weather_now)
-        private val tvWeatherDaily: TextView = itemView.findViewById(R.id.tv_weather_daily)
+
         private var currentCity: MyWeatherCity? = null
 
         init {
@@ -60,8 +60,8 @@ class MainCityAdapter(private val listener: OnItemClickListener<MyWeatherCity>) 
         fun bind(city: MyWeatherCity) {
             currentCity = city
             tvCity.text = city.city
-            tvWeatherNow.text = city.weatherNowJson
-            tvWeatherDaily.text = city.weatherDailyJson
+//            tvWeatherNow.text = city.weatherNowJson
+//            tvWeatherDaily.text = city.weatherDailyJson
         }
     }
 }

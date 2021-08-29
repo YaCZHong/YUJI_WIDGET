@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         AppDatabase.getInstance().cityDao().getCities().observe(this, Observer { cities ->
             vm.setCities(cities.map { item ->
                 MyWeatherCity(item.city, item.lat, item.lon).also {
-                    updateCity(it)
+//                    updateCity(it)
                 }
             })
         })
