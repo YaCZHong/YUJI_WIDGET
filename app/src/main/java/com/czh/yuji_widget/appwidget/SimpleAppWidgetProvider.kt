@@ -11,6 +11,7 @@ import com.czh.yuji_widget.R
 import com.czh.yuji_widget.db.AppDatabase
 import com.czh.yuji_widget.http.response.Now
 import com.czh.yuji_widget.util.GsonUtils
+import com.czh.yuji_widget.util.WeatherIconUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -35,7 +36,7 @@ class SimpleAppWidgetProvider : AppWidgetProvider() {
                 val remoteViews =
                     RemoteViews(context.packageName, R.layout.appwidget_simple).apply {
                         setOnClickPendingIntent(R.id.tv_jump, pendingIntent)
-                        setImageViewResource(R.id.iv_weather, R.drawable.ic_100)
+                        setImageViewResource(R.id.iv_weather, WeatherIconUtils.getIcon(weatherNow.icon))
                         setTextViewText(R.id.tv_temp, "${weatherNow.temp}℃")
                         setTextViewText(R.id.tv_city, city.city)
                     }

@@ -50,4 +50,10 @@ class MainVM : ViewModel() {
             }
         }
     }
+
+    fun deleteCity(city: City) {
+        viewModelScope.launch {
+            AppDatabase.getInstance().cityDao().deleteCity(city)
+        }
+    }
 }

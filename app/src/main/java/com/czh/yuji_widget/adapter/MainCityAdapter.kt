@@ -3,11 +3,16 @@ package com.czh.yuji_widget.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.czh.yuji_widget.R
 import com.czh.yuji_widget.db.City
+import com.czh.yuji_widget.http.response.Now
+import com.czh.yuji_widget.util.GsonUtils
+import com.czh.yuji_widget.util.WeatherIconUtils
 
 class MainCityAdapter(private val listener: OnItemClickListener<City>) :
     RecyclerView.Adapter<MainCityAdapter.ViewHolder>() {
@@ -36,9 +41,9 @@ class MainCityAdapter(private val listener: OnItemClickListener<City>) :
 
     class ViewHolder(view: View, listener: OnItemClickListener<City>) :
         RecyclerView.ViewHolder(view) {
+        private val ivWeatherNow: ImageView = itemView.findViewById(R.id.iv_weather_now)
         private val tvCity: TextView = itemView.findViewById(R.id.tv_city)
         private val tvWeatherNow: TextView = itemView.findViewById(R.id.tv_weather_now)
-        private val tvWeather7D: TextView = itemView.findViewById(R.id.tv_weather_7d)
         private var currentCity: City? = null
 
         init {
@@ -58,9 +63,15 @@ class MainCityAdapter(private val listener: OnItemClickListener<City>) :
 
         fun bind(city: City) {
             currentCity = city
-            tvCity.text = city.city
-            tvWeatherNow.text = city.weatherNowJson
-            tvWeather7D.text = city.weatherDailyJson
+            try {
+                val weatherNow = GsonUtils.instance.fromJson(city.weatherNowJson, Now::class.java)
+                Glide.with(ivWeatherNow.context).load(WeatherIconUtils.getIcon(weatherNow.icon))
+                    .into(ivWeatherNow)
+                tvCity.text = city.city
+                tvWeatherNow.text = "${weatherNow.text}，${weatherNow.temp}℃"
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 }
