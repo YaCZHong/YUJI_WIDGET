@@ -4,19 +4,17 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.czh.yuji_widget.adapter.*
 import com.czh.yuji_widget.databinding.ActivityMainBinding
 import com.czh.yuji_widget.db.AppDatabase
-import com.czh.yuji_widget.util.GsonUtils
+import com.czh.yuji_widget.db.City
 import com.czh.yuji_widget.util.dp2px
 import com.czh.yuji_widget.vm.MainVM
-import com.qweather.sdk.bean.weather.WeatherDailyBean
-import com.qweather.sdk.bean.weather.WeatherNowBean
-import com.qweather.sdk.view.QWeather
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,7 +26,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         initView()
         initData()
     }
@@ -37,12 +34,12 @@ class MainActivity : AppCompatActivity() {
         binding.fab.setOnClickListener {
             startActivity(Intent(this, AddCityActivity::class.java))
         }
-        mAdapter = MainCityAdapter(object : OnItemClickListener<MyWeatherCity> {
-            override fun onClick(t: MyWeatherCity, view: View) {
+        mAdapter = MainCityAdapter(object : OnItemClickListener<City> {
+            override fun onClick(t: City, view: View) {
 
             }
 
-            override fun onLongClick(t: MyWeatherCity, view: View) {
+            override fun onLongClick(t: City, view: View) {
                 // 暂不实现
             }
         })
@@ -51,53 +48,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initData() {
-        vm.cities.observe(this, Observer {
-            mAdapter.setData(it)
-        })
-        AppDatabase.getInstance().cityDao().getCities().observe(this, Observer { cities ->
-            vm.setCities(cities.map { item ->
-                MyWeatherCity(item.city, item.lat, item.lon).also {
-//                    updateCity(it)
+        lifecycleScope.launch {
+            AppDatabase.getInstance().cityDao().cities().observe(this@MainActivity, Observer {
+                mAdapter.setData(it)
+                binding.fab.visibility = if (it.size > 5) View.GONE else View.VISIBLE
+                it.forEach { item ->
+                    updateCity(item)
                 }
             })
-        })
+        }
     }
 
-    private fun updateCity(city: MyWeatherCity) {
+    private fun updateCity(city: City) {
         if (TextUtils.isEmpty(city.weatherNowJson)) {
-            QWeather.getWeatherNow(
-                this,
-                "${city.lon},${city.lat}",
-                object : QWeather.OnResultWeatherNowListener {
-                    override fun onError(p0: Throwable?) {
-                        Log.d("czh", "")
-                    }
-
-                    override fun onSuccess(data: WeatherNowBean?) {
-                        data?.let {
-                            city.weatherNowJson = GsonUtils.instance.toJson(it.now)
-                            vm.notifyUpdate()
-                        }
-                    }
-                })
+            vm.getWeatherNow(city)
         }
-
         if (TextUtils.isEmpty(city.weatherDailyJson)) {
-            QWeather.getWeather7D(
-                this,
-                "${city.lon},${city.lat}",
-                object : QWeather.OnResultWeatherDailyListener {
-                    override fun onError(p0: Throwable?) {
-                        Log.d("czh", "")
-                    }
-
-                    override fun onSuccess(data: WeatherDailyBean?) {
-                        data?.let {
-                            city.weatherDailyJson = GsonUtils.instance.toJson(it.daily)
-                            vm.notifyUpdate()
-                        }
-                    }
-                })
+            vm.getWeather7D(city)
         }
     }
 }

@@ -5,22 +5,22 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.czh.yuji_widget.R
 import com.czh.yuji_widget.adapter.AddCityAdapter
 import com.czh.yuji_widget.adapter.ItemDecoration
-import com.czh.yuji_widget.adapter.HeWeatherCity
 import com.czh.yuji_widget.adapter.OnItemClickListener
 import com.czh.yuji_widget.databinding.ActivityAddCityBinding
 import com.czh.yuji_widget.db.AppDatabase
 import com.czh.yuji_widget.db.City
 import com.czh.yuji_widget.dialog.LoadingDialog
+import com.czh.yuji_widget.http.response.Location
 import com.czh.yuji_widget.util.dp2px
 import com.czh.yuji_widget.util.toast.toast
+import com.czh.yuji_widget.vm.AddCityVM
 import com.miguelcatalan.materialsearchview.MaterialSearchView
-import com.qweather.sdk.bean.base.Code
-import com.qweather.sdk.bean.geo.GeoBean
-import com.qweather.sdk.view.QWeather
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -32,6 +32,7 @@ import kotlinx.coroutines.launch
 class AddCityActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddCityBinding
+    private val vm by viewModels<AddCityVM>()
     private lateinit var mAdapter: AddCityAdapter
     private var loading: LoadingDialog? = null
 
@@ -40,21 +41,28 @@ class AddCityActivity : AppCompatActivity() {
         binding = ActivityAddCityBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initView()
+        initData()
     }
 
     private fun initView() {
         setSupportActionBar(binding.toolBar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        mAdapter = AddCityAdapter(object : OnItemClickListener<HeWeatherCity> {
-            override fun onClick(t: HeWeatherCity, view: View) {
-                val city = City(city = t.name, lat = t.lat, lon = t.lon)
+        mAdapter = AddCityAdapter(object : OnItemClickListener<Location> {
+            override fun onClick(t: Location, view: View) {
                 lifecycleScope.launch(Dispatchers.IO) {
+                    val cities = AppDatabase.getInstance().cityDao().getCities()
+                    val city = City(
+                        city = t.name,
+                        lat = t.lat,
+                        lon = t.lon,
+                        isWidget = if (cities.isEmpty()) 1 else 0
+                    )
                     AppDatabase.getInstance().cityDao().addCity(city)
                     finish()
                 }
             }
 
-            override fun onLongClick(t: HeWeatherCity, view: View) {
+            override fun onLongClick(t: Location, view: View) {
                 // 暂不实现
             }
         })
@@ -64,7 +72,7 @@ class AddCityActivity : AppCompatActivity() {
         binding.searchView.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 binding.searchView.closeSearch()
-                getCities(query)
+                vm.getCities(query)
                 return true
             }
 
@@ -72,44 +80,24 @@ class AddCityActivity : AppCompatActivity() {
                 return false
             }
         })
-
-        binding.searchView.postDelayed({ getCities("潮州") }, 400)
     }
 
-    private fun getCities(query: String) {
-        LoadingDialog(msg = "正在搜索中").also { loading = it }.show(supportFragmentManager, "")
+    private fun initData() {
+        vm.toastHint.observe(this, Observer { toastHint ->
+            toastHint?.let { toast(it) }
+        })
+        vm.loading.observe(this, Observer { show ->
+            if (show) {
+                LoadingDialog("正在搜索中...").also { loading = it }.show(supportFragmentManager, "")
+            } else {
+                loading?.dismiss()
+            }
+        })
+        vm.cities.observe(this, Observer { data ->
+            data?.let { mAdapter.setData(it) }
+        })
 
-        QWeather.getGeoCityLookup(
-            this@AddCityActivity,
-            query,
-            object : QWeather.OnResultGeoListener {
-                override fun onError(p0: Throwable?) {
-                    loading?.dismiss()
-                    toast("搜索失败")
-                }
-
-                override fun onSuccess(data: GeoBean?) {
-                    loading?.dismiss()
-                    data?.let {
-                        if (it.code == Code.OK) {
-                            val list = mutableListOf<HeWeatherCity>()
-                            it.locationBean.forEach { bean ->
-                                val heWeatherCity = HeWeatherCity(
-                                    bean.id,
-                                    bean.name,
-                                    "${bean.country}--${bean.adm1}--${bean.adm2}",
-                                    bean.lat,
-                                    bean.lon
-                                )
-                                list.add(heWeatherCity)
-                            }
-                            mAdapter.setData(list)
-                        } else {
-                            toast("搜索失败 error code:${it.code}")
-                        }
-                    }
-                }
-            })
+        binding.searchView.postDelayed({ vm.getCities("潮州") }, 400)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

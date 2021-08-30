@@ -11,10 +11,18 @@ object HttpManager {
 
     private const val TIME_OUT = 15L
 
-    val retrofit: Retrofit by lazy {
+    val retrofitOfCity: Retrofit by lazy {
         Retrofit.Builder()
             .client(okClient)
-            .baseUrl("https://geoapi.qweather.com/v2/city/lookup/")
+            .baseUrl(Urls.CITY_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    val retrofitOfWeather: Retrofit by lazy {
+        Retrofit.Builder()
+            .client(okClient)
+            .baseUrl(Urls.WEATHER_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

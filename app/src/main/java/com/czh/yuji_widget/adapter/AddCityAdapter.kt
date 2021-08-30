@@ -7,11 +7,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import com.czh.yuji_widget.R
+import com.czh.yuji_widget.http.response.Location
 
-class AddCityAdapter(private val listener: OnItemClickListener<HeWeatherCity>) :
+class AddCityAdapter(private val listener: OnItemClickListener<Location>) :
     RecyclerView.Adapter<AddCityAdapter.ViewHolder>() {
 
-    private var cities: List<HeWeatherCity> = emptyList()
+    private var cities: List<Location> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view: View =
@@ -27,66 +28,31 @@ class AddCityAdapter(private val listener: OnItemClickListener<HeWeatherCity>) :
         return cities.size
     }
 
-    fun setData(data: List<HeWeatherCity>) {
-        val diffCallback = AddCityDiffCallback(cities, data)
+    fun setData(data: List<Location>) {
+        val diffCallback = LocationDiffCallback(cities, data)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
         diffResult.dispatchUpdatesTo(this)
         cities = data
     }
 
-    class ViewHolder(itemView: View, private val listener: OnItemClickListener<HeWeatherCity>) :
+    class ViewHolder(itemView: View, private val listener: OnItemClickListener<Location>) :
         RecyclerView.ViewHolder(itemView) {
         private val tvCityName: TextView = itemView.findViewById(R.id.tv_city_name)
         private val tvCityParent: TextView = itemView.findViewById(R.id.tv_city_parent)
-        private var currentHeWeatherCity: HeWeatherCity? = null
+        private var currentCity: Location? = null
 
         init {
             itemView.setOnClickListener {
-                currentHeWeatherCity?.let {
+                currentCity?.let {
                     listener.onClick(it, itemView)
                 }
             }
         }
 
-        fun bind(heWeatherCity: HeWeatherCity) {
-            this.currentHeWeatherCity = heWeatherCity
-            tvCityName.text = heWeatherCity.name
-            tvCityParent.text = heWeatherCity.parent
+        fun bind(city: Location) {
+            this.currentCity = city
+            tvCityName.text = city.name
+            tvCityParent.text = "${city.country}--${city.adm1}--${city.adm2}"
         }
     }
 }
-
-class AddCityDiffCallback(
-    private val oldItems: List<HeWeatherCity>,
-    private val newItems: List<HeWeatherCity>
-) : DiffUtil.Callback() {
-
-    override fun getOldListSize(): Int {
-        return oldItems.size
-    }
-
-    override fun getNewListSize(): Int {
-        return newItems.size
-    }
-
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldItems[oldItemPosition].id == newItems[newItemPosition].id
-    }
-
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        val oldItem: HeWeatherCity = oldItems[oldItemPosition]
-        val newItem: HeWeatherCity = newItems[newItemPosition]
-        return oldItem.name == newItem.name
-                && oldItem.parent == newItem.parent
-                && oldItem.lat == newItem.lat
-                && oldItem.lon == newItem.lon
-    }
-}
-
-data class HeWeatherCity(
-    val id: String,
-    val name: String,
-    val parent: String,
-    val lat: String,
-    val lon: String
-)

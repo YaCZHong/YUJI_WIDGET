@@ -22,7 +22,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.YUJI_WIDGET_NO_ACTIONBAR">
+        android:theme="@style/Theme.YUJI_WIDGET_NO_ACTIONBAR"
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".activity.AddCityActivity"
             android:configChanges="keyboardHidden|orientation|locale|screenSize"
@@ -47,7 +48,7 @@
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="a6b5d438caae58c1672d9a5f8826c563" />
+            android:value="${AMAP_KEY}" />
 
         <service android:name="com.amap.api.location.APSService" />
 

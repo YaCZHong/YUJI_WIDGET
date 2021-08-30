@@ -10,211 +10,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="24dp"
-        android:paddingTop="16dp"
-        android:paddingBottom="32dp">
+        android:paddingVertical="16dp">
 
-        <ImageView
-            android:id="@+id/iv_weather_now"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/ic_103"
+        <TextView
+            android:id="@+id/tv_city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_city"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorTextDark"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/iv_weather_now"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/iv_weather_now" />
-
-        <TextView
             android:id="@+id/tv_weather_now"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="多云，31℃"
-            android:textColor="@color/colorTextDark2nd"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_city" />
-
-        <LinearLayout
-            android:id="@+id/ll_weather"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/tv_weather_now">
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_city" />
 
-            <LinearLayout
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tv_date_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:includeFontPadding="false"
-                    android:text="09-12"
-                    android:textColor="@color/colorTextDark2nd"
-                    android:textSize="12sp" />
-
-                <ImageView
-                    android:id="@+id/iv_weather_1"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginVertical="2dp"
-                    android:src="@drawable/ic_301" />
-
-                <TextView
-                    android:id="@+id/tv_temp_range_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:includeFontPadding="false"
-                    android:text="35/29"
-                    android:textColor="@color/colorTextDark2nd"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tv_date_2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:includeFontPadding="false"
-                    android:text="09-12"
-                    android:textColor="@color/colorTextDark2nd"
-                    android:textSize="12sp" />
-
-                <ImageView
-                    android:id="@+id/iv_weather_2"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginVertical="2dp"
-                    android:src="@drawable/ic_301" />
-
-                <TextView
-                    android:id="@+id/tv_temp_range_2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:includeFontPadding="false"
-                    android:text="35/29"
-                    android:textColor="@color/colorTextDark2nd"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tv_date_3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:includeFontPadding="false"
-                    android:text="09-12"
-                    android:textColor="@color/colorTextDark2nd"
-                    android:textSize="12sp" />
-
-                <ImageView
-                    android:id="@+id/iv_weather_3"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginVertical="2dp"
-                    android:src="@drawable/ic_301" />
-
-                <TextView
-                    android:id="@+id/tv_temp_range_3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:includeFontPadding="false"
-                    android:text="35/29"
-                    android:textColor="@color/colorTextDark2nd"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tv_date_4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:includeFontPadding="false"
-                    android:text="09-12"
-                    android:textColor="@color/colorTextDark2nd"
-                    android:textSize="12sp" />
-
-                <ImageView
-                    android:id="@+id/iv_weather_4"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginVertical="2dp"
-                    android:src="@drawable/ic_301" />
-
-                <TextView
-                    android:id="@+id/tv_temp_range_4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:includeFontPadding="false"
-                    android:text="35/29"
-                    android:textColor="@color/colorTextDark2nd"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tv_date_5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:includeFontPadding="false"
-                    android:text="09-12"
-                    android:textColor="@color/colorTextDark2nd"
-                    android:textSize="12sp" />
-
-                <ImageView
-                    android:id="@+id/iv_weather_5"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginVertical="2dp"
-                    android:src="@drawable/ic_301" />
-
-                <TextView
-                    android:id="@+id/tv_temp_range_5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:includeFontPadding="false"
-                    android:text="35/29"
-                    android:textColor="@color/colorTextDark2nd"
-                    android:textSize="12sp" />
-            </LinearLayout>
-        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_weather_7d"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_weather_now" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

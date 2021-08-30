@@ -2,10 +2,16 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'kotlin-parcelize'
 }
 
 android {
     compileSdk 30
+
+    //加载资源
+    Properties properties = new Properties()
+    InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream()
+    properties.load(inputStream)
 
     defaultConfig {
         applicationId "com.czh.yuji_widget"
@@ -15,6 +21,13 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "HF_ID", properties['HF_ID']
+        buildConfigField "String", "HF_KEY", properties['HF_KEY']
+
+        manifestPlaceholders = [
+                AMAP_KEY: properties['AMAP_KEY']
+        ]
     }
 
     buildTypes {
@@ -36,10 +49,6 @@ android {
 }
 
 dependencies {
-
-    // 依赖 libs 目录下所有 jar 包
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.3.0'
@@ -71,7 +80,7 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$glide_version"
     annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
 
-    implementation 'com.google.code.gson:gson:2.6.2'
+    implementation 'com.google.code.gson:gson:2.8.8'
 
     //定位功能
     implementation 'com.amap.api:location:latest.integration'
