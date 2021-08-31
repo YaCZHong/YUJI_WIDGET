@@ -1,5 +1,6 @@
 package com.czh.yuji_widget.adapter
 
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,10 +34,12 @@ class MainCityAdapter(private val listener: OnItemClickListener<City>) :
     }
 
     fun setData(data: List<City>) {
-        val diffCallback = CityDiffCallback(cities, data)
-        val diffResult = DiffUtil.calculateDiff(diffCallback)
-        diffResult.dispatchUpdatesTo(this)
+//        val diffCallback = CityDiffCallback(cities, data)
+//        val diffResult = DiffUtil.calculateDiff(diffCallback)
+//        diffResult.dispatchUpdatesTo(this)
+//        cities = data
         cities = data
+        notifyDataSetChanged()
     }
 
     class ViewHolder(view: View, listener: OnItemClickListener<City>) :
@@ -63,14 +66,17 @@ class MainCityAdapter(private val listener: OnItemClickListener<City>) :
 
         fun bind(city: City) {
             currentCity = city
-            try {
-                val weatherNow = GsonUtils.instance.fromJson(city.weatherNowJson, Now::class.java)
-                Glide.with(ivWeatherNow.context).load(WeatherIconUtils.getIcon(weatherNow.icon))
-                    .into(ivWeatherNow)
-                tvCity.text = city.city
-                tvWeatherNow.text = "${weatherNow.text}，${weatherNow.temp}℃"
-            } catch (e: Exception) {
-                e.printStackTrace()
+            tvCity.text = city.city
+            if (!TextUtils.isEmpty(city.weatherNowJson)) {
+                try {
+                    val weatherNow =
+                        GsonUtils.instance.fromJson(city.weatherNowJson, Now::class.java)
+                    Glide.with(ivWeatherNow.context).load(WeatherIconUtils.getIcon(weatherNow.icon))
+                        .into(ivWeatherNow)
+                    tvWeatherNow.text = "${weatherNow.text}，${weatherNow.temp}℃"
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
         }
     }

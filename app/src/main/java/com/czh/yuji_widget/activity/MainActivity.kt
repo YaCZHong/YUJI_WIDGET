@@ -59,8 +59,8 @@ class MainActivity : AppCompatActivity() {
     private fun initData() {
         lifecycleScope.launch {
             AppDatabase.getInstance().cityDao().cities().observe(this@MainActivity, Observer {
-                mAdapter.setData(it)
                 binding.fab.visibility = if (it.size >= 5) View.GONE else View.VISIBLE
+                mAdapter.setData(it)
                 it.forEach { item ->
                     updateCity(item)
                 }
@@ -69,11 +69,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateCity(city: City) {
-        if (TextUtils.isEmpty(city.weatherNowJson)) {
-            vm.getWeatherNow(city)
-        }
-        if (TextUtils.isEmpty(city.weatherDailyJson)) {
-            vm.getWeather7D(city)
+        if (System.currentTimeMillis() - city.updateTime > 10 * 60 * 1000) {
+            vm.getWeather(city)
         }
     }
 
