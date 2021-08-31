@@ -16,7 +16,7 @@ class AddCityVM : ViewModel() {
     val cities = MutableLiveData<List<Location>>()
 
     fun getCities(query: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Main) {
             loading.value = true
             try {
                 val response = withContext(Dispatchers.IO) {

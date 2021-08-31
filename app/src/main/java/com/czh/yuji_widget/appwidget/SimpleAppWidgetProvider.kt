@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.widget.RemoteViews
 import com.czh.yuji_widget.activity.MainActivity
 import com.czh.yuji_widget.R
@@ -23,6 +24,7 @@ class SimpleAppWidgetProvider : AppWidgetProvider() {
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray
     ) {
+        Log.d("czhczh", "onUpdate")
         appWidgetIds.forEach { appWidgetId ->
             val pendingIntent = Intent(context, MainActivity::class.java).let { intent ->
                 PendingIntent.getActivity(context, 0, intent, 0)
@@ -36,7 +38,10 @@ class SimpleAppWidgetProvider : AppWidgetProvider() {
                 val remoteViews =
                     RemoteViews(context.packageName, R.layout.appwidget_simple).apply {
                         setOnClickPendingIntent(R.id.tv_jump, pendingIntent)
-                        setImageViewResource(R.id.iv_weather, WeatherIconUtils.getIcon(weatherNow.icon))
+                        setImageViewResource(
+                            R.id.iv_weather,
+                            WeatherIconUtils.getIcon(weatherNow.icon)
+                        )
                         setTextViewText(R.id.tv_temp, "${weatherNow.temp}℃")
                         setTextViewText(R.id.tv_city, city.city)
                     }

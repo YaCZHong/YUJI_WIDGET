@@ -17,7 +17,7 @@ import kotlinx.coroutines.withContext
 class MainVM : ViewModel() {
 
     fun getWeather(city: City) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val data1 = async { getWeatherNow(city) }
                 val data2 = async { getWeather7D(city) }
@@ -40,7 +40,7 @@ class MainVM : ViewModel() {
         }
     }
 
-    private fun updateWeather(
+    private suspend fun updateWeather(
         city: City,
         weatherNow: WeatherNowResponse,
         weather7D: Weather7DResponse
@@ -49,18 +49,30 @@ class MainVM : ViewModel() {
             city.updateTime = System.currentTimeMillis()
             city.weatherNowJson = GsonUtils.instance.toJson(weatherNow.now)
             city.weatherDailyJson = GsonUtils.instance.toJson(weather7D.daily)
-            viewModelScope.launch {
-                AppDatabase.getInstance().cityDao().updateCity(city)
-                if (city.isWidget == 1) {
-                    notifyWidgetUpdate()
-                }
+
+            AppDatabase.getInstance().cityDao().updateCity(city)
+            if (city.isWidget == 1) {
+                notifyWidgetUpdate()
             }
         }
     }
 
     fun deleteCity(city: City) {
-        viewModelScope.launch {
-            AppDatabase.getInstance().cityDao().deleteCity(city)
+        viewModelScope.launch(Dispatchers.IO) {
+            if (city.isWidgetCity()) {
+                val cities = AppDatabase.getInstance().cityDao().getCities()
+                if (cities.size == 1) {
+                    return@launch
+                } else {
+                    AppDatabase.getInstance().cityDao().deleteCity(city)
+                    AppDatabase.getInstance().cityDao().getCities().also {
+                        it[0].isWidget = 1
+                        notifyWidgetUpdate()
+                    }
+                }
+            }else{
+                AppDatabase.getInstance().cityDao().deleteCity(city)
+            }
         }
     }
 }

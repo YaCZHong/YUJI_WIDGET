@@ -16,4 +16,8 @@ data class City(
     @ColumnInfo var updateTime: Long = 0,
     @ColumnInfo var updateState: Int = 0, // 0 更新失败，1 更新中，2 更新成功
     @ColumnInfo var isWidget: Int = 0
-)
+) {
+    fun isWidgetCity(): Boolean {
+        return isWidget == 1
+    }
+}
