@@ -49,7 +49,7 @@ class MainCityAdapter(private val listener: OnItemClickListener<City>) :
         private val ivWeatherNow: ImageView = itemView.findViewById(R.id.iv_weather_now)
         private val tvCity: TextView = itemView.findViewById(R.id.tv_city)
         private val tvWeatherNow: TextView = itemView.findViewById(R.id.tv_weather_now)
-        private val tvUpdateTime: TextView = itemView.findViewById(R.id.tv_update_time)
+//        private val tvUpdateTime: TextView = itemView.findViewById(R.id.tv_update_time)
         private val ivWidgetMark: ImageView = itemView.findViewById(R.id.iv_widget_mark)
         private var currentCity: City? = null
 
@@ -71,13 +71,13 @@ class MainCityAdapter(private val listener: OnItemClickListener<City>) :
         fun bind(city: City) {
             currentCity = city
             tvCity.text = city.city
-            tvUpdateTime.text = "更新：${parseTime(city.updateTime)}"
-            tvUpdateTime.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                R.drawable.ic_time_24,
-                0,
-                0,
-                0
-            )
+//            tvUpdateTime.text = "更新：${parseTime(city.updateTime)}"
+//            tvUpdateTime.setCompoundDrawablesRelativeWithIntrinsicBounds(
+//                R.drawable.ic_time_24,
+//                0,
+//                0,
+//                0
+//            )
             ivWidgetMark.visibility = if (city.isWidgetCity()) View.VISIBLE else View.GONE
             if (!TextUtils.isEmpty(city.weatherNowJson)) {
                 try {

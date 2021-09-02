@@ -68,7 +68,6 @@ class AddCityActivity : BaseActivity() {
 
         binding.searchView.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                binding.searchView.closeSearch()
                 vm.getCities(query)
                 return true
             }

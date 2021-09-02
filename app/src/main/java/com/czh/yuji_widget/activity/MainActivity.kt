@@ -1,11 +1,8 @@
 package com.czh.yuji_widget.activity
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import android.view.WindowManager
-import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
@@ -15,7 +12,6 @@ import com.czh.yuji_widget.adapter.*
 import com.czh.yuji_widget.databinding.ActivityMainBinding
 import com.czh.yuji_widget.db.AppDatabase
 import com.czh.yuji_widget.db.City
-import com.czh.yuji_widget.dialog.MainBottomSheetDialogFragment
 import com.czh.yuji_widget.util.VibratorUtils
 import com.czh.yuji_widget.util.dp2px
 import com.czh.yuji_widget.util.toast.toast
@@ -65,7 +61,7 @@ class MainActivity : BaseActivity() {
 
         lifecycleScope.launch {
             AppDatabase.getInstance().cityDao().cities().observe(this@MainActivity, Observer {
-                binding.fab.visibility = if (it.size >= 5) View.GONE else View.VISIBLE
+                binding.fab.visibility = if (it.size >= 10) View.GONE else View.VISIBLE
                 mAdapter.setData(it)
                 it.forEach { item ->
                     updateCity(item)
@@ -82,26 +78,21 @@ class MainActivity : BaseActivity() {
     }
 
     private fun showBottomSheet(city: City) {
-//        val mBottomSheetDialog = BottomSheetDialog(this, R.style.BottomSheetDialogStyle)
-//        val view = layoutInflater.inflate(R.layout.dialog_bottom_sheet, null)
-//        view.findViewById<TextView>(R.id.tv_widget).setOnClickListener {
-//            vm.makeCityToWidget(city)
-//            mBottomSheetDialog.dismiss()
-//        }
-//        view.findViewById<TextView>(R.id.tv_delete).setOnClickListener {
-//            vm.deleteCity(city)
-//            mBottomSheetDialog.dismiss()
-//        }
-//        view.findViewById<TextView>(R.id.tv_cancel).setOnClickListener {
-//            mBottomSheetDialog.dismiss()
-//        }
-//        mBottomSheetDialog.setContentView(view)
-//        mBottomSheetDialog.window?.apply {
-//            findViewById<FrameLayout>(R.id.design_bottom_sheet).setBackgroundColor(Color.TRANSPARENT)
-//        }
-//
-//        mBottomSheetDialog.show()
-        MainBottomSheetDialogFragment(city).show(supportFragmentManager,"")
+        val mBottomSheetDialog = BottomSheetDialog(this)
+        val view = layoutInflater.inflate(R.layout.dialog_bottom_sheet, null)
+        view.findViewById<TextView>(R.id.tv_widget).setOnClickListener {
+            vm.makeCityToWidget(city)
+            mBottomSheetDialog.dismiss()
+        }
+        view.findViewById<TextView>(R.id.tv_delete).setOnClickListener {
+            vm.deleteCity(city)
+            mBottomSheetDialog.dismiss()
+        }
+        view.findViewById<TextView>(R.id.tv_cancel).setOnClickListener {
+            mBottomSheetDialog.dismiss()
+        }
+        mBottomSheetDialog.setContentView(view)
+        mBottomSheetDialog.show()
         VibratorUtils.shortVibrate(this)
     }
 }
