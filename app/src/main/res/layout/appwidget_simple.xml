@@ -28,7 +28,7 @@
             android:layout_centerVertical="true"
             android:layout_marginHorizontal="8dp"
             android:layout_toEndOf="@id/tv_hour"
-            android:background="@drawable/line_vertical"
+            android:background="@drawable/shape_88ffffff_radius_8dp"
             android:includeFontPadding="false" />
 
         <TextClock

@@ -8,22 +8,36 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="24dp"
-        android:paddingVertical="16dp">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/iv_weather_now"
             android:layout_width="80dp"
             android:layout_height="80dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
             android:scaleType="centerInside"
+            app:layout_constraintBottom_toTopOf="@id/tv_update_time"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_widget_mark"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="16dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_tag_24"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/tv_city"
+            app:layout_constraintEnd_toStartOf="@id/tv_city"
+            app:layout_constraintTop_toTopOf="@id/tv_city" />
 
         <TextView
             android:id="@+id/tv_city"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
             android:textColor="@color/colorTextDark"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -37,8 +51,24 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorTextDark2nd"
             android:textSize="14sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/iv_weather_now"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/tv_city"
             app:layout_constraintTop_toBottomOf="@id/tv_city" />
+
+        <TextView
+            android:id="@+id/tv_update_time"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_marginBottom="16dp"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/colorTextGrey"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/tv_city"
+            app:layout_constraintTop_toBottomOf="@id/iv_weather_now" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

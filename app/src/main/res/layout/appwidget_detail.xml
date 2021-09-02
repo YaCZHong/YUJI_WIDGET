@@ -31,7 +31,7 @@
                 android:layout_width="4dp"
                 android:layout_height="28dp"
                 android:layout_marginHorizontal="8dp"
-                android:background="@drawable/line_vertical"
+                android:background="@drawable/shape_88ffffff_radius_8dp"
                 android:includeFontPadding="false" />
 
             <TextClock
@@ -77,7 +77,7 @@
         android:layout_height="4dp"
         android:layout_marginHorizontal="12dp"
         android:layout_marginVertical="4dp"
-        android:background="@drawable/line_vertical"
+        android:background="@drawable/shape_88ffffff_radius_8dp"
         android:includeFontPadding="false" />
 
     <LinearLayout

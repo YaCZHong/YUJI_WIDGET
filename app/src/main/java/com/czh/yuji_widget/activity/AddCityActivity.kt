@@ -1,6 +1,5 @@
 package com.czh.yuji_widget.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -15,7 +14,6 @@ import com.czh.yuji_widget.adapter.OnItemClickListener
 import com.czh.yuji_widget.databinding.ActivityAddCityBinding
 import com.czh.yuji_widget.db.AppDatabase
 import com.czh.yuji_widget.db.City
-import com.czh.yuji_widget.dialog.LoadingDialog
 import com.czh.yuji_widget.http.response.Location
 import com.czh.yuji_widget.util.dp2px
 import com.czh.yuji_widget.util.toast.toast
@@ -29,12 +27,11 @@ import kotlinx.coroutines.launch
  * @Author: czh
  * @CreateDate: 2021/8/29 16:22
  */
-class AddCityActivity : AppCompatActivity() {
+class AddCityActivity : BaseActivity() {
 
     private lateinit var binding: ActivityAddCityBinding
     private val vm by viewModels<AddCityVM>()
     private lateinit var mAdapter: AddCityAdapter
-    private var loading: LoadingDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,14 +80,14 @@ class AddCityActivity : AppCompatActivity() {
     }
 
     private fun initData() {
-        vm.toastHint.observe(this, Observer { toastHint ->
+        vm.toastHintLiveData.observe(this, Observer { toastHint ->
             toastHint?.let { toast(it) }
         })
-        vm.loading.observe(this, Observer { show ->
+        vm.loadingLiveData.observe(this, Observer { show ->
             if (show) {
-                LoadingDialog("正在搜索中...").also { loading = it }.show(supportFragmentManager, "")
+                showLoading("正在搜索中...")
             } else {
-                loading?.dismiss()
+                hideLoading()
             }
         })
         vm.cities.observe(this, Observer { data ->
@@ -121,10 +118,5 @@ class AddCityActivity : AppCompatActivity() {
         } else {
             super.onBackPressed()
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        loading?.dismiss()
     }
 }

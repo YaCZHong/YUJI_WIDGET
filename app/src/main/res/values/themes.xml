@@ -1,18 +1,16 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="Theme.YUJI_WIDGET" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
 
-    <style name="Theme.YUJI_WIDGET_NO_ACTIONBAR" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.YUJI_WIDGET_NO_ACTIONBAR" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/colorAccent</item>
+        <item name="colorOnSecondary">@color/white</item>
     </style>
 
     <!--loading弹窗样式-->
-    <style name="LoadingDialogTheme" parent="android:Theme.Holo.Light.Dialog">
+    <style name="LoadingDialogStyle" parent="android:Theme.Holo.Light.Dialog">
         <!--是否半透明-->
         <item name="android:windowIsTranslucent">true</item>
         <!--设置dialog的背景-->
@@ -29,6 +27,16 @@
         <item name="android:backgroundDimEnabled">true</item>
         <!--如果背景需要模糊，模糊到什么程度，当值为1 时，除了dialog以外的部分全黑-->
         <item name="android:backgroundDimAmount">0.5</item>
+    </style>
+
+    <style name="BottomSheetDialogStyle" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.3</item>
     </style>
 
 </resources>

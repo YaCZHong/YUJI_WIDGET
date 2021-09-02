@@ -36,7 +36,7 @@ object VibratorUtils {
      */
     fun shortVibrate(context: Context) {
         vibrator.cancel()
-        vibrator.vibrate(50)
+        vibrator.vibrate(20)
     }
 
     /**

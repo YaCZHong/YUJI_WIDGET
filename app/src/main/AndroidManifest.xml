@@ -49,7 +49,6 @@
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="${AMAP_KEY}" />
-
         <service android:name="com.amap.api.location.APSService" />
 
         <receiver android:name=".appwidget.SimpleAppWidgetProvider">

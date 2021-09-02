@@ -1,6 +1,5 @@
 package com.czh.yuji_widget.vm
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.czh.yuji_widget.db.AppDatabase
 import com.czh.yuji_widget.db.City
@@ -14,16 +13,20 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MainVM : ViewModel() {
+class MainVM : BaseVM() {
 
     fun getWeather(city: City) {
         viewModelScope.launch(Dispatchers.IO) {
+            handleLoadingStatus(true)
             try {
                 val data1 = async { getWeatherNow(city) }
                 val data2 = async { getWeather7D(city) }
                 updateWeather(city, data1.await(), data2.await())
             } catch (e: Exception) {
+                toastHintLiveData.postValue("获取${city.city}天气失败")
                 e.printStackTrace()
+            } finally {
+                handleLoadingStatus(false)
             }
         }
     }
@@ -57,22 +60,28 @@ class MainVM : ViewModel() {
         }
     }
 
+    fun makeCityToWidget(city: City) {
+
+    }
+
     fun deleteCity(city: City) {
         viewModelScope.launch(Dispatchers.IO) {
+            val cities = AppDatabase.getInstance().cityDao().getCities()
+            if (cities.size == 1) {
+                toastHintLiveData.postValue("城市不能为空")
+                return@launch
+            }
             if (city.isWidgetCity()) {
-                val cities = AppDatabase.getInstance().cityDao().getCities()
-                if (cities.size == 1) {
-                    return@launch
-                } else {
-                    AppDatabase.getInstance().cityDao().deleteCity(city)
-                    AppDatabase.getInstance().cityDao().getCities().also {
-                        it[0].isWidget = 1
-                        notifyWidgetUpdate()
-                    }
+                AppDatabase.getInstance().cityDao().deleteCity(city)
+                AppDatabase.getInstance().cityDao().getCities().also {
+                    it[0].isWidget = 1
+                    AppDatabase.getInstance().cityDao().updateCity(it[0])
+                    notifyWidgetUpdate()
                 }
-            }else{
+            } else {
                 AppDatabase.getInstance().cityDao().deleteCity(city)
             }
+            toastHintLiveData.postValue("删除成功")
         }
     }
 }
