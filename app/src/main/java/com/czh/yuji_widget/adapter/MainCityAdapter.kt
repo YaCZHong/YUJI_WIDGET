@@ -14,7 +14,6 @@ import com.czh.yuji_widget.db.City
 import com.czh.yuji_widget.http.response.Now
 import com.czh.yuji_widget.util.GsonUtils
 import com.czh.yuji_widget.util.getIcon
-import com.czh.yuji_widget.util.parseTime
 
 class MainCityAdapter(private val listener: OnItemClickListener<City>) :
     RecyclerView.Adapter<MainCityAdapter.ViewHolder>() {
@@ -49,7 +48,7 @@ class MainCityAdapter(private val listener: OnItemClickListener<City>) :
         private val ivWeatherNow: ImageView = itemView.findViewById(R.id.iv_weather_now)
         private val tvCity: TextView = itemView.findViewById(R.id.tv_city)
         private val tvWeatherNow: TextView = itemView.findViewById(R.id.tv_weather_now)
-//        private val tvUpdateTime: TextView = itemView.findViewById(R.id.tv_update_time)
+        private val tvOverdueHint: TextView = itemView.findViewById(R.id.tv_overdue_hint)
         private val ivWidgetMark: ImageView = itemView.findViewById(R.id.iv_widget_mark)
         private var currentCity: City? = null
 
@@ -71,13 +70,8 @@ class MainCityAdapter(private val listener: OnItemClickListener<City>) :
         fun bind(city: City) {
             currentCity = city
             tvCity.text = city.city
-//            tvUpdateTime.text = "更新：${parseTime(city.updateTime)}"
-//            tvUpdateTime.setCompoundDrawablesRelativeWithIntrinsicBounds(
-//                R.drawable.ic_time_24,
-//                0,
-//                0,
-//                0
-//            )
+            tvOverdueHint.visibility =
+                if (System.currentTimeMillis() - city.updateTime > 30 * 60 * 1000) View.VISIBLE else View.GONE
             ivWidgetMark.visibility = if (city.isWidgetCity()) View.VISIBLE else View.GONE
             if (!TextUtils.isEmpty(city.weatherNowJson)) {
                 try {

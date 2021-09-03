@@ -14,6 +14,7 @@ import com.czh.yuji_widget.db.City
 import com.czh.yuji_widget.http.response.Daily
 import com.czh.yuji_widget.util.GsonUtils
 import com.czh.yuji_widget.util.getIcon
+import com.czh.yuji_widget.util.getWeek
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -84,46 +85,52 @@ class DetailAppWidgetProvider : AppWidgetProvider() {
             setOnClickPendingIntent(R.id.ll_weather, pendingIntent)
             setTextViewText(R.id.tv_city, city.city)
 
-            setTextViewText(R.id.tv_date_1, weatherDailies[0].fxDate.substring(5))
+            val arrayDay0 = weatherDailies[0].fxDate.split("-").map { it.toInt() }
+            val arrayDay1 = weatherDailies[1].fxDate.split("-").map { it.toInt() }
+            val arrayDay2 = weatherDailies[2].fxDate.split("-").map { it.toInt() }
+            val arrayDay3 = weatherDailies[3].fxDate.split("-").map { it.toInt() }
+            val arrayDay4 = weatherDailies[4].fxDate.split("-").map { it.toInt() }
+            setTextViewText(R.id.tv_date_1, getWeek(arrayDay0[0], arrayDay0[1], arrayDay0[2]))
+            setTextViewText(R.id.tv_date_2, getWeek(arrayDay1[0], arrayDay1[1], arrayDay1[2]))
+            setTextViewText(R.id.tv_date_3, getWeek(arrayDay2[0], arrayDay2[1], arrayDay2[2]))
+            setTextViewText(R.id.tv_date_4, getWeek(arrayDay3[0], arrayDay3[1], arrayDay3[2]))
+            setTextViewText(R.id.tv_date_5, getWeek(arrayDay4[0], arrayDay4[1], arrayDay4[2]))
+
             setImageViewResource(
                 R.id.iv_weather_1,
                 getIcon(weatherDailies[0].iconDay)
+            )
+            setImageViewResource(
+                R.id.iv_weather_2,
+                getIcon(weatherDailies[1].iconDay)
+            )
+            setImageViewResource(
+                R.id.iv_weather_3,
+                getIcon(weatherDailies[2].iconDay)
+            )
+            setImageViewResource(
+                R.id.iv_weather_4,
+                getIcon(weatherDailies[3].iconDay)
+            )
+            setImageViewResource(
+                R.id.iv_weather_5,
+                getIcon(weatherDailies[4].iconDay)
             )
             setTextViewText(
                 R.id.tv_temp_range_1,
                 "${weatherDailies[0].tempMax}°/${weatherDailies[0].tempMin}°"
             )
-            setTextViewText(R.id.tv_date_2, weatherDailies[1].fxDate.substring(5))
-            setImageViewResource(
-                R.id.iv_weather_2,
-                getIcon(weatherDailies[1].iconDay)
-            )
             setTextViewText(
                 R.id.tv_temp_range_2,
                 "${weatherDailies[1].tempMax}°/${weatherDailies[1].tempMin}°"
-            )
-            setTextViewText(R.id.tv_date_3, weatherDailies[2].fxDate.substring(5))
-            setImageViewResource(
-                R.id.iv_weather_3,
-                getIcon(weatherDailies[2].iconDay)
             )
             setTextViewText(
                 R.id.tv_temp_range_3,
                 "${weatherDailies[2].tempMax}°/${weatherDailies[2].tempMin}°"
             )
-            setTextViewText(R.id.tv_date_4, weatherDailies[3].fxDate.substring(5))
-            setImageViewResource(
-                R.id.iv_weather_4,
-                getIcon(weatherDailies[3].iconDay)
-            )
             setTextViewText(
                 R.id.tv_temp_range_4,
                 "${weatherDailies[3].tempMax}°/${weatherDailies[3].tempMin}°"
-            )
-            setTextViewText(R.id.tv_date_5, weatherDailies[4].fxDate.substring(5))
-            setImageViewResource(
-                R.id.iv_weather_5,
-                getIcon(weatherDailies[4].iconDay)
             )
             setTextViewText(
                 R.id.tv_temp_range_5,

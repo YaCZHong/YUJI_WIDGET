@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
     android:background="@drawable/shape_top_ffffffff_radius_8dp"
+    android:gravity="center_horizontal"
     android:orientation="vertical">
 
     <View
@@ -21,8 +21,7 @@
         android:gravity="center"
         android:text="设为小部件城市"
         android:textColor="@color/colorTextDark"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textSize="16sp" />
 
     <View
         android:layout_width="match_parent"
@@ -37,8 +36,7 @@
         android:gravity="center"
         android:text="删除城市"
         android:textColor="@color/colorTextDark"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textSize="16sp" />
 
     <View
         android:layout_width="match_parent"
@@ -53,6 +51,5 @@
         android:gravity="center"
         android:text="取消"
         android:textColor="@color/colorTextDark"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textSize="16sp" />
 </LinearLayout>
