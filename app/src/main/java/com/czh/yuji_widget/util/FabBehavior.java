@@ -14,12 +14,6 @@ import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-/**
- * @description:
- * @author: czh
- * @time: 2021/9/3 0:49
- */
-
 public class FabBehavior extends FloatingActionButton.Behavior {
 
     private static final Interpolator INTERPOLATOR = new FastOutSlowInInterpolator();

@@ -13,7 +13,7 @@ import com.czh.yuji_widget.R
 import com.czh.yuji_widget.db.City
 import com.czh.yuji_widget.http.response.Now
 import com.czh.yuji_widget.util.GsonUtils
-import com.czh.yuji_widget.util.WeatherIconUtils
+import com.czh.yuji_widget.util.getIcon
 import com.czh.yuji_widget.util.parseTime
 
 class MainCityAdapter(private val listener: OnItemClickListener<City>) :
@@ -83,7 +83,7 @@ class MainCityAdapter(private val listener: OnItemClickListener<City>) :
                 try {
                     val weatherNow =
                         GsonUtils.instance.fromJson(city.weatherNowJson, Now::class.java)
-                    Glide.with(ivWeatherNow.context).load(WeatherIconUtils.getIcon(weatherNow.icon))
+                    Glide.with(ivWeatherNow.context).load(getIcon(weatherNow.icon))
                         .into(ivWeatherNow)
                     tvWeatherNow.text = "${weatherNow.text}，${weatherNow.temp}℃"
                 } catch (e: Exception) {

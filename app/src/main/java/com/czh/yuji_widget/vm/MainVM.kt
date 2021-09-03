@@ -61,7 +61,11 @@ class MainVM : BaseVM() {
     }
 
     fun makeCityToWidget(city: City) {
-
+        viewModelScope.launch(Dispatchers.IO) {
+            AppDatabase.getInstance().cityDao().makeAllNotWidgetCity()
+            AppDatabase.getInstance().cityDao().updateCity(city.also { it.isWidget = 1 })
+            notifyWidgetUpdate()
+        }
     }
 
     fun deleteCity(city: City) {

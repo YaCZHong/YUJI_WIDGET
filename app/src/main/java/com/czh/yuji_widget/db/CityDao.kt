@@ -6,10 +6,10 @@ import androidx.room.*
 @Dao
 interface CityDao {
     @Query("select * from city")
-    suspend fun getCities(): List<City>
+    fun cities(): LiveData<List<City>>
 
     @Query("select * from city")
-    fun cities(): LiveData<List<City>>
+    suspend fun getCities(): List<City>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addCity(city: City): Long
@@ -22,4 +22,7 @@ interface CityDao {
 
     @Query("select * from city where isWidget = 1")
     suspend fun getWidgetCity(): City
+
+    @Query("update city set isWidget = 0")
+    suspend fun makeAllNotWidgetCity()
 }
