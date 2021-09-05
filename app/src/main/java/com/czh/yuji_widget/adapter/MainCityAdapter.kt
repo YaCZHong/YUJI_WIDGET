@@ -69,6 +69,11 @@ class MainCityAdapter(private val listener: OnItemClickListener<City>) :
 
         fun bind(city: City) {
             currentCity = city
+            if (city.city.length > 8) {
+                tvCity.textSize = 18f
+            } else {
+                tvCity.textSize = 24f
+            }
             tvCity.text = city.city
             tvOverdueHint.visibility =
                 if (System.currentTimeMillis() - city.updateTime > 30 * 60 * 1000) View.VISIBLE else View.GONE

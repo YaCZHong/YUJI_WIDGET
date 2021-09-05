@@ -1,5 +1,6 @@
 package com.czh.yuji_widget.activity
 
+import android.Manifest
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -21,6 +22,18 @@ import com.czh.yuji_widget.vm.AddCityVM
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import android.content.pm.PackageManager
+import androidx.core.content.ContextCompat
+import android.os.Build
+import com.amap.api.location.AMapLocationClientOption
+import com.amap.api.location.AMapLocationClient
+import androidx.core.app.ActivityCompat
+import com.czh.yuji_widget.dialog.showConfirmCancelDialog
+import com.czh.yuji_widget.dialog.showConfirmDialog
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
+
 
 /**
  * @Description: 添加城市
@@ -29,16 +42,52 @@ import kotlinx.coroutines.launch
  */
 class AddCityActivity : BaseActivity() {
 
+    companion object {
+        const val REQUEST_LOCATION_CODE = 10000
+    }
+
     private lateinit var binding: ActivityAddCityBinding
     private val vm by viewModels<AddCityVM>()
     private lateinit var mAdapter: AddCityAdapter
+
+    private var mLocationClient: AMapLocationClient? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddCityBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        initLocation()
         initView()
         initData()
+    }
+
+    private fun initLocation() {
+        val mLocationOption = AMapLocationClientOption().apply {
+            locationMode = AMapLocationClientOption.AMapLocationMode.Hight_Accuracy
+            isOnceLocation = true
+            isOnceLocationLatest = true
+        }
+
+        mLocationClient = AMapLocationClient(this).apply {
+            setLocationOption(mLocationOption)
+            setLocationListener { location ->
+                stopLocate()
+                if (location.errorCode == 0) {
+                    showConfirmCancelDialog(
+                        this@AddCityActivity,
+                        msg = "是否添加位置：${location.description}？",
+                        confirmClick = {
+                            saveCity(
+                                location.description,
+                                location.latitude.toString(),
+                                location.longitude.toString()
+                            )
+                        })
+                } else {
+                    showConfirmDialog(this@AddCityActivity, msg = location.locationDetail)
+                }
+            }
+        }
     }
 
     private fun initView() {
@@ -46,17 +95,7 @@ class AddCityActivity : BaseActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         mAdapter = AddCityAdapter(object : OnItemClickListener<Location> {
             override fun onClick(t: Location, view: View) {
-                lifecycleScope.launch(Dispatchers.IO) {
-                    val cities = AppDatabase.getInstance().cityDao().getCities()
-                    val city = City(
-                        city = t.name,
-                        lat = t.lat,
-                        lon = t.lon,
-                        isWidget = if (cities.isEmpty()) 1 else 0
-                    )
-                    AppDatabase.getInstance().cityDao().addCity(city)
-                    finish()
-                }
+                saveCity(t.name, t.lat, t.lon)
             }
 
             override fun onLongClick(t: Location, view: View) {
@@ -93,12 +132,17 @@ class AddCityActivity : BaseActivity() {
             data?.let { mAdapter.setData(it) }
         })
 
-        binding.searchView.postDelayed({ vm.getCities("潮州") }, 400)
+//        binding.searchView.postDelayed({ vm.getCities("潮州") }, 400)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            onBackPressed()
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+            }
+            R.id.action_locate -> {
+                toLocate()
+            }
         }
         return true
     }
@@ -116,6 +160,99 @@ class AddCityActivity : BaseActivity() {
             binding.searchView.closeSearch()
         } else {
             super.onBackPressed()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mLocationClient?.onDestroy()
+        mLocationClient = null
+    }
+
+    private fun requestLocationPermission() {
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+            REQUEST_LOCATION_CODE
+        )
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (grantResults.isNotEmpty() && requestCode == REQUEST_LOCATION_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                startLocate()
+            } else {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(
+                        this,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    )
+                ) {
+                    showConfirmCancelDialog(
+                        this,
+                        title = "权限缺失",
+                        msg = "获取当前位置需要定位权限，是否确定授权？",
+                        confirmClick = { requestLocationPermission() })
+                } else {
+                    showConfirmCancelDialog(
+                        this,
+                        title = "权限缺失",
+                        msg = "获取当前位置需要定位权限，是否前往设置页面开启？",
+                        confirmClick = {
+                            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                                .apply { data = Uri.fromParts("package", packageName, null) }
+                            startActivity(intent)
+                        })
+                }
+            }
+        }
+    }
+
+    private fun toLocate() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                startLocate()
+            } else {
+                requestLocationPermission()
+            }
+        } else {
+            startLocate()
+        }
+    }
+
+    private fun startLocate() {
+        mLocationClient?.let {
+            showLoading("定位中...")
+            it.startLocation()
+        }
+    }
+
+    private fun stopLocate() {
+        mLocationClient?.let {
+            it.stopLocation()
+            hideLoading()
+        }
+    }
+
+    private fun saveCity(cityName: String, lat: String, lon: String) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val cities = AppDatabase.getInstance().cityDao().getCities()
+            val city = City(
+                city = cityName,
+                lat = lat,
+                lon = lon,
+                isWidget = if (cities.isEmpty()) 1 else 0
+            )
+            AppDatabase.getInstance().cityDao().addCity(city)
+            finish()
         }
     }
 }

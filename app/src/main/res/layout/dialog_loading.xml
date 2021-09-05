@@ -26,5 +26,5 @@
         app:layout_constraintEnd_toEndOf="@id/pb_loading"
         app:layout_constraintStart_toStartOf="@id/pb_loading"
         app:layout_constraintTop_toBottomOf="@id/pb_loading"
-        tools:text="@string/loading" />
+        tools:text="请稍候..." />
 </androidx.constraintlayout.widget.ConstraintLayout>
