@@ -129,10 +129,22 @@ class AddCityActivity : BaseActivity() {
             }
         })
         vm.cities.observe(this, Observer { data ->
-            data?.let { mAdapter.setData(it) }
+            data?.let {
+                if (it.isEmpty()){
+                    changeContentVisible(true)
+                }else{
+                    mAdapter.setData(it)
+                    changeContentVisible(false)
+                }
+            } ?: changeContentVisible(true)
         })
 
 //        binding.searchView.postDelayed({ vm.getCities("潮州") }, 400)
+    }
+
+    private fun changeContentVisible(isNoData: Boolean) {
+        binding.tvAddHint.visibility = if (isNoData) View.VISIBLE else View.GONE
+        binding.rv.visibility = if (isNoData) View.GONE else View.VISIBLE
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
