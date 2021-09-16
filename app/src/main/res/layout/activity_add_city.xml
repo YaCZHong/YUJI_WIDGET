@@ -1,50 +1,83 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_FFFAFAFA"
-    android:orientation="vertical">
+    android:background="@color/color_FFFAFAFA">
 
-    <FrameLayout
-        android:id="@+id/fl_toolbar"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:elevation="0dp">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolBar"
+        <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark"
-            app:title="添加城市"
-            app:titleTextColor="@color/white" />
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
+            app:titleEnabled="false">
 
-        <com.miguelcatalan.materialsearchview.MaterialSearchView
-            android:id="@+id/search_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </FrameLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="64dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/shape_ffffffff_radius_4dp">
+
+                <EditText
+                    android:id="@+id/et_search"
+                    android:layout_width="0px"
+                    android:layout_height="44dp"
+                    android:background="@null"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:hint="请输入..."
+                    android:paddingStart="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/iv_search"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/iv_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_search_24"
+                    app:layout_constraintBottom_toBottomOf="@id/et_search"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/et_search" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark"
+                app:title="添加城市"
+                app:titleTextColor="@color/white" />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"
         android:layout_width="match_parent"
-        android:layout_height="0px"
+        android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fl_toolbar" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <TextView
         android:id="@+id/tv_add_hint"
         android:layout_width="match_parent"
-        android:layout_height="0px"
+        android:layout_height="match_parent"
         android:lineSpacingExtra="4dp"
         android:padding="20dp"
         android:text="添加城市的方式：\n1、通过点击定位图标来获取当前所在的位置；\n2、通过点击搜索图标输入城市名称或简拼来查找城市。"
         android:textColor="@color/colorTextGrey"
         android:textSize="13sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fl_toolbar" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

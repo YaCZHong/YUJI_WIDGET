@@ -2,13 +2,11 @@ package com.czh.yuji_widget.activity
 
 import android.Manifest
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import com.czh.yuji_widget.R
 import com.czh.yuji_widget.adapter.AddCityAdapter
 import com.czh.yuji_widget.adapter.ItemDecoration
 import com.czh.yuji_widget.adapter.OnItemClickListener
@@ -19,7 +17,6 @@ import com.czh.yuji_widget.http.response.Location
 import com.czh.yuji_widget.util.dp2px
 import com.czh.yuji_widget.util.toast.toast
 import com.czh.yuji_widget.vm.AddCityVM
-import com.miguelcatalan.materialsearchview.MaterialSearchView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import android.content.pm.PackageManager
@@ -33,7 +30,7 @@ import com.czh.yuji_widget.dialog.showConfirmDialog
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
-
+import android.view.inputmethod.EditorInfo
 
 /**
  * @Description: 添加城市
@@ -102,19 +99,20 @@ class AddCityActivity : BaseActivity() {
                 // 暂不实现
             }
         })
-        binding.rv.adapter = mAdapter
-        binding.rv.addItemDecoration(ItemDecoration(dp2px(8)))
+        binding.apply {
+            rv.adapter = mAdapter
+            rv.addItemDecoration(ItemDecoration(dp2px(8)))
 
-        binding.searchView.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                vm.getCities(query)
-                return true
+            etSearch.setOnEditorActionListener { v, actionId, _ ->
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    vm.getCities(v.text.toString())
+                }
+                true
             }
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                return false
+            ivSearch.setOnClickListener {
+                vm.getCities(etSearch.text.toString())
             }
-        })
+        }
     }
 
     private fun initData() {
@@ -130,9 +128,9 @@ class AddCityActivity : BaseActivity() {
         })
         vm.cities.observe(this, Observer { data ->
             data?.let {
-                if (it.isEmpty()){
+                if (it.isEmpty()) {
                     changeContentVisible(true)
-                }else{
+                } else {
                     mAdapter.setData(it)
                     changeContentVisible(false)
                 }
@@ -152,27 +150,8 @@ class AddCityActivity : BaseActivity() {
             android.R.id.home -> {
                 onBackPressed()
             }
-            R.id.action_locate -> {
-                toLocate()
-            }
         }
         return true
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.add_city, menu)
-        menu?.findItem(R.id.action_search)?.also {
-            binding.searchView.setMenuItem(it)
-        }
-        return true
-    }
-
-    override fun onBackPressed() {
-        if (binding.searchView.isSearchOpen) {
-            binding.searchView.closeSearch()
-        } else {
-            super.onBackPressed()
-        }
     }
 
     override fun onDestroy() {

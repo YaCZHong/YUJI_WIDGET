@@ -1,5 +1,6 @@
 package com.czh.yuji_widget.vm
 
+import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.czh.yuji_widget.http.repo.CityRepo
@@ -12,6 +13,10 @@ class AddCityVM : BaseVM() {
     val cities = MutableLiveData<List<Location>>()
 
     fun getCities(query: String) {
+        if (TextUtils.isEmpty(query)) {
+            toastHintLiveData.value = "请输入城市名"
+            return
+        }
         viewModelScope.launch(Dispatchers.Main) {
             handleLoadingStatus(true)
             try {

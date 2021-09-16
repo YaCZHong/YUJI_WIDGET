@@ -87,8 +87,6 @@ dependencies {
 
     //定位功能
     implementation 'com.amap.api:location:latest.integration'
-    //搜索栏
-    implementation 'com.miguelcatalan:materialsearchview:1.4.0'
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
