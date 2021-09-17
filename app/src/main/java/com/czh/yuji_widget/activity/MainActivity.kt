@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.czh.yuji_widget.R
@@ -34,7 +35,9 @@ class MainActivity : BaseActivity() {
 
     private fun init() {
         binding.fab.setOnClickListener {
-            startActivity(Intent(this, AddCityActivity::class.java))
+            val intent = Intent(this, AddCityActivity::class.java)
+//            val bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle()
+            startActivity(intent)
         }
         mAdapter = MainCityAdapter(object : OnItemClickListener<City> {
             override fun onClick(t: City, view: View) {

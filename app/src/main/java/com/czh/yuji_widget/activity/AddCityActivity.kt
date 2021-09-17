@@ -30,6 +30,8 @@ import com.czh.yuji_widget.dialog.showConfirmDialog
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
+import android.transition.Slide
+import android.view.Window
 import android.view.inputmethod.EditorInfo
 
 /**
@@ -51,6 +53,11 @@ class AddCityActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        window.requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
+//        Slide().apply {
+//            window.enterTransition = this
+//            window.exitTransition = this
+//        }
         binding = ActivityAddCityBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initLocation()
@@ -109,8 +116,8 @@ class AddCityActivity : BaseActivity() {
                 }
                 true
             }
-            ivSearch.setOnClickListener {
-                vm.getCities(etSearch.text.toString())
+            ivLocate.setOnClickListener {
+                toLocate()
             }
         }
     }

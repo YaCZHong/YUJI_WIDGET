@@ -24,27 +24,38 @@
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/shape_ffffffff_radius_4dp">
 
+                <ImageView
+                    android:id="@+id/iv_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="8dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="6dp"
+                    android:src="@drawable/ic_search_24"
+                    app:layout_constraintBottom_toBottomOf="@id/et_search"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/et_search" />
+
                 <EditText
                     android:id="@+id/et_search"
                     android:layout_width="0px"
                     android:layout_height="44dp"
                     android:background="@null"
+                    android:hint="请输入..."
                     android:imeOptions="actionSearch"
                     android:inputType="text"
-                    android:hint="请输入..."
-                    android:paddingStart="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/iv_search"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/iv_search"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:id="@+id/iv_search"
+                    android:id="@+id/iv_locate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="8dp"
                     android:background="?android:attr/selectableItemBackgroundBorderless"
-                    android:src="@drawable/ic_search_24"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_location_24"
                     app:layout_constraintBottom_toBottomOf="@id/et_search"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/et_search" />
@@ -75,9 +86,8 @@
         android:layout_height="match_parent"
         android:lineSpacingExtra="4dp"
         android:padding="20dp"
-        android:text="添加城市的方式：\n1、通过点击定位图标来获取当前所在的位置；\n2、通过点击搜索图标输入城市名称或简拼来查找城市。"
+        android:text="添加城市的方式：\n1、通过输入城市名称或简拼来查找城市；\n2、通过点击定位图标来获取当前所在的位置；\n"
         android:textColor="@color/colorTextGrey"
-        android:textSize="13sp"
-        android:textStyle="bold"
+        android:textSize="15sp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
