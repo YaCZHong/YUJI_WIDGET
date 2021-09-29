@@ -35,7 +35,10 @@ class MainActivity : BaseActivity() {
     }
 
     private fun init() {
-        statusBarTransparent(true)
+        ImmersionBar.with(this)
+            .statusBarDarkFont(true)
+            .init()
+        setSupportActionBar(binding.toolBar)
         binding.fab.setOnClickListener {
             val intent = Intent(this, AddCityActivity::class.java)
             startActivity(intent)
