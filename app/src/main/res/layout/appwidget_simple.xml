@@ -92,9 +92,14 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/tv_minute"
             android:layout_alignParentEnd="true"
+            android:drawableStart="@drawable/ic_location_16"
+            android:ellipsize="end"
+            android:gravity="center_vertical|end"
             android:includeFontPadding="false"
+            android:maxWidth="120dp"
+            android:maxLines="1"
             android:textColor="@color/color_DDFFFFFF"
-            android:textSize="14sp" />
+            android:textSize="13sp" />
     </RelativeLayout>
 
     <TextClock

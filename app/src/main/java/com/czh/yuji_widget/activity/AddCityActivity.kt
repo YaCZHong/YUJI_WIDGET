@@ -119,6 +119,7 @@ class AddCityActivity : BaseActivity() {
             ivLocate.setOnClickListener {
                 toLocate()
             }
+            etSearch.requestFocus()
         }
     }
 

@@ -53,6 +53,8 @@
             android:layout_alignStart="@id/tv_city"
             android:format12Hour="aa"
             android:format24Hour=""
+            android:layout_marginStart="2dp"
+            android:layout_marginBottom="4dp"
             android:includeFontPadding="false"
             android:textColor="@color/color_DDFFFFFF"
             android:textSize="12sp" />
@@ -63,11 +65,15 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/ll_time"
             android:layout_marginStart="6dp"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:layout_marginBottom="10dp"
             android:layout_toEndOf="@id/ll_time"
+            android:drawableStart="@drawable/ic_location_16"
+            android:gravity="center_vertical"
             android:includeFontPadding="false"
             android:textColor="@color/color_DDFFFFFF"
-            android:textSize="12sp" />
+            android:textSize="13sp" />
 
     </RelativeLayout>
 
