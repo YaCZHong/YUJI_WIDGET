@@ -30,9 +30,9 @@ import com.czh.yuji_widget.dialog.showConfirmDialog
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
-import android.transition.Slide
-import android.view.Window
 import android.view.inputmethod.EditorInfo
+import com.czh.yuji_widget.R
+import com.gyf.immersionbar.ImmersionBar
 
 /**
  * @Description: 添加城市
@@ -53,11 +53,6 @@ class AddCityActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        window.requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
-//        Slide().apply {
-//            window.enterTransition = this
-//            window.exitTransition = this
-//        }
         binding = ActivityAddCityBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initLocation()
@@ -95,6 +90,11 @@ class AddCityActivity : BaseActivity() {
     }
 
     private fun initView() {
+        ImmersionBar.with(this)
+            .fitsSystemWindows(true)
+            .statusBarColor(R.color.color_FFF9F9F9)
+            .statusBarDarkFont(true)
+            .init()
         setSupportActionBar(binding.toolBar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         mAdapter = AddCityAdapter(object : OnItemClickListener<Location> {
@@ -108,7 +108,7 @@ class AddCityActivity : BaseActivity() {
         })
         binding.apply {
             rv.adapter = mAdapter
-            rv.addItemDecoration(ItemDecoration(dp2px(8)))
+            rv.addItemDecoration(ItemDecoration(dp2px(16), dp2px(12)))
 
             etSearch.setOnEditorActionListener { v, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {

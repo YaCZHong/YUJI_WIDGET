@@ -70,9 +70,9 @@ class MainCityAdapter(private val listener: OnItemClickListener<City>) :
         fun bind(city: City) {
             currentCity = city
             if (city.city.length > 8) {
-                tvCity.textSize = 18f
+                tvCity.textSize = 16f
             } else {
-                tvCity.textSize = 24f
+                tvCity.textSize = 20f
             }
             tvCity.text = city.city
             tvOverdueHint.visibility =

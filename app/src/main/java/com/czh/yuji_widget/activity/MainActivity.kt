@@ -1,11 +1,11 @@
 package com.czh.yuji_widget.activity
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.activity.viewModels
-import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.czh.yuji_widget.R
@@ -18,6 +18,7 @@ import com.czh.yuji_widget.util.dp2px
 import com.czh.yuji_widget.util.toast.toast
 import com.czh.yuji_widget.vm.MainVM
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.gyf.immersionbar.ImmersionBar
 import kotlinx.coroutines.launch
 
 class MainActivity : BaseActivity() {
@@ -34,9 +35,9 @@ class MainActivity : BaseActivity() {
     }
 
     private fun init() {
+        statusBarTransparent(true)
         binding.fab.setOnClickListener {
             val intent = Intent(this, AddCityActivity::class.java)
-//            val bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle()
             startActivity(intent)
         }
         mAdapter = MainCityAdapter(object : OnItemClickListener<City> {
@@ -49,7 +50,7 @@ class MainActivity : BaseActivity() {
             }
         })
         binding.rv.adapter = mAdapter
-        binding.rv.addItemDecoration(ItemDecoration(dp2px(8)))
+        binding.rv.addItemDecoration(ItemDecoration(dp2px(16), dp2px(12)))
 
         vm.toastHintLiveData.observe(this, Observer {
             toast(it)
