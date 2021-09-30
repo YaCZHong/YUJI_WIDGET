@@ -34,12 +34,10 @@ class MainCityAdapter(private val listener: OnItemClickListener<City>) :
     }
 
     fun setData(data: List<City>) {
-//        val diffCallback = CityDiffCallback(cities, data)
-//        val diffResult = DiffUtil.calculateDiff(diffCallback)
-//        diffResult.dispatchUpdatesTo(this)
-//        cities = data
+        val diffCallback = CityDiffCallback(cities, data)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+        diffResult.dispatchUpdatesTo(this)
         cities = data
-        notifyDataSetChanged()
     }
 
     class ViewHolder(view: View, listener: OnItemClickListener<City>) :
@@ -83,6 +81,7 @@ class MainCityAdapter(private val listener: OnItemClickListener<City>) :
                     val weatherNow =
                         GsonUtils.instance.fromJson(city.weatherNowJson, Now::class.java)
                     Glide.with(ivWeatherNow.context).load(getIcon(weatherNow.icon))
+                        .override(120, 120)
                         .into(ivWeatherNow)
                     tvWeatherNow.text = "${weatherNow.text}，${weatherNow.temp}℃"
                 } catch (e: Exception) {

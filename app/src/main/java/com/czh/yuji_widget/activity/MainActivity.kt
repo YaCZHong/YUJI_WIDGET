@@ -1,13 +1,14 @@
 package com.czh.yuji_widget.activity
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.czh.yuji_widget.R
 import com.czh.yuji_widget.adapter.*
 import com.czh.yuji_widget.databinding.ActivityMainBinding
@@ -18,14 +19,24 @@ import com.czh.yuji_widget.util.dp2px
 import com.czh.yuji_widget.util.toast.toast
 import com.czh.yuji_widget.vm.MainVM
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.gyf.immersionbar.ImmersionBar
 import kotlinx.coroutines.launch
+import kotlin.math.abs
 
 class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val vm by viewModels<MainVM>()
     private lateinit var mAdapter: MainCityAdapter
+    private val mAnimator = ViewPager2.PageTransformer { page, position ->
+        val absPos = abs(position)
+        page.apply {
+            val scale = if (absPos > 1) 0F else 1 - 0.1f * absPos
+            scaleX = scale
+            scaleY = scale
+        }
+    }
+
+    private var lastCityCount: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,10 +46,6 @@ class MainActivity : BaseActivity() {
     }
 
     private fun init() {
-        ImmersionBar.with(this)
-            .statusBarDarkFont(true)
-            .init()
-        setSupportActionBar(binding.toolBar)
         binding.fab.setOnClickListener {
             val intent = Intent(this, AddCityActivity::class.java)
             startActivity(intent)
@@ -52,8 +59,19 @@ class MainActivity : BaseActivity() {
                 showBottomSheet(t)
             }
         })
-        binding.rv.adapter = mAdapter
-        binding.rv.addItemDecoration(ItemDecoration(dp2px(16), dp2px(12)))
+
+        binding.vp.apply {
+            offscreenPageLimit = 1
+            val recyclerView = getChildAt(0) as RecyclerView
+            recyclerView.apply {
+                val padding = dp2px(36)
+                setPadding(padding, 0, padding, 0)
+                clipToPadding = false
+                overScrollMode = View.OVER_SCROLL_NEVER
+            }
+            adapter = mAdapter
+            setPageTransformer(mAnimator)
+        }
 
         vm.toastHintLiveData.observe(this, Observer {
             toast(it)
@@ -68,10 +86,20 @@ class MainActivity : BaseActivity() {
 
         lifecycleScope.launch {
             AppDatabase.getInstance().cityDao().cities().observe(this@MainActivity, Observer {
-                binding.fab.visibility = if (it.size >= 10) View.GONE else View.VISIBLE
+                binding.fab.visibility = if (it.size >= 5) View.GONE else View.VISIBLE
                 mAdapter.setData(it)
+
+                // 如果有城市增删，则跳回第一个城市
+                if (lastCityCount != it.size) {
+                    lastCityCount = it.size
+                    binding.vp.post {
+                        binding.vp.currentItem = 0
+                    }
+                }
+
+                // 检测更新天气数据
                 it.forEach { item ->
-                    updateCity(item)
+                    updateCity(item.copy())
                 }
             })
         }

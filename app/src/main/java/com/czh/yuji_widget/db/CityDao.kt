@@ -5,10 +5,10 @@ import androidx.room.*
 
 @Dao
 interface CityDao {
-    @Query("select * from city")
+    @Query("select * from city order by uid desc")
     fun cities(): LiveData<List<City>>
 
-    @Query("select * from city")
+    @Query("select * from city order by uid desc")
     suspend fun getCities(): List<City>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

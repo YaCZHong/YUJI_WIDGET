@@ -31,8 +31,6 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
 import android.view.inputmethod.EditorInfo
-import com.czh.yuji_widget.R
-import com.gyf.immersionbar.ImmersionBar
 
 /**
  * @Description: 添加城市
@@ -90,11 +88,6 @@ class AddCityActivity : BaseActivity() {
     }
 
     private fun initView() {
-        ImmersionBar.with(this)
-            .fitsSystemWindows(true)
-            .statusBarColor(R.color.color_FFF9F9F9)
-            .statusBarDarkFont(true)
-            .init()
         setSupportActionBar(binding.toolBar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         mAdapter = AddCityAdapter(object : OnItemClickListener<Location> {

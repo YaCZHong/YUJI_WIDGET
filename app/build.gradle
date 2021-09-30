@@ -84,7 +84,6 @@ dependencies {
     kapt "com.github.bumptech.glide:compiler:$glide_version"
 
     implementation 'com.google.code.gson:gson:2.8.8'
-    implementation 'com.gyf.immersionbar:immersionbar:3.0.0'
 
     //定位功能
     implementation 'com.amap.api:location:latest.integration'

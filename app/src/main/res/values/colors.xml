@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#4BAFF7</color>
-    <!--    这里colorPrimaryDark只是为了闪屏页状态栏颜色不突兀，在Activity中会被重新设置颜色-->
-    <color name="colorPrimaryDark">#00FFFFFF</color>
+    <color name="colorPrimaryDark">#4BAFF7</color>
     <color name="colorAccent">#4BAFF7</color>
 
     <color name="transparent">#00FFFFFF</color>

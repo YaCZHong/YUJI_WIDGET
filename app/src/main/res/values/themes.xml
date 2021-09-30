@@ -7,14 +7,18 @@
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorSecondary">@color/colorAccent</item>
         <item name="colorOnSecondary">@color/white</item>
-        <item name="android:statusBarColor">@color/transparent</item>
         <item name="shapeAppearanceLargeComponent">@style/MyShapeAppearanceLargeComponent</item>
+    </style>
+
+    <style name="MainActivityTheme" parent="Theme.YUJI_WIDGET_NO_ACTIONBAR">
+        <item name="android:windowFullscreen">true</item>
     </style>
 
     <!--CollapsingToolbarLayout折叠时标题文字样式-->
     <style name="CollapsedTitleTextStyle" parent="TextAppearance.AppCompat.Title">
         <item name="android:textColor">@color/colorTextDark</item>
     </style>
+
     <style name="ExpandedTitleTextStyle" parent="TextAppearance.AppCompat.Title">
         <item name="android:textColor">@color/colorTextDark</item>
     </style>
