@@ -7,6 +7,22 @@
     android:background="@color/color_FFF0F0F0"
     tools:context=".activity.MainActivity">
 
+    <TextView
+        android:id="@+id/tv_poem"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginBottom="36dp"
+        android:autoSizeMaxTextSize="18sp"
+        android:autoSizeMinTextSize="10sp"
+        android:autoSizeStepGranularity="2sp"
+        android:autoSizeTextType="uniform"
+        android:fontFamily="@font/my_font"
+        android:gravity="bottom"
+        android:lineSpacingExtra="4dp"
+        android:paddingHorizontal="36dp"
+        android:textColor="@color/colorTextDark"
+        app:layout_constraintBottom_toTopOf="@id/vp" />
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/vp"
         android:layout_width="match_parent"
@@ -18,11 +34,11 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="24dp"
+        android:layout_margin="36dp"
         android:src="@drawable/ic_add_24"
         android:visibility="gone"
         app:elevation="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/vp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

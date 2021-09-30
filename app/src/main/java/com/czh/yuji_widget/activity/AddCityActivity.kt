@@ -89,6 +89,7 @@ class AddCityActivity : BaseActivity() {
 
     private fun initView() {
         setSupportActionBar(binding.toolBar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         mAdapter = AddCityAdapter(object : OnItemClickListener<Location> {
             override fun onClick(t: Location, view: View) {

@@ -27,6 +27,14 @@ object HttpManager {
             .build()
     }
 
+    val retrofitOfPoem: Retrofit by lazy {
+        Retrofit.Builder()
+            .client(okClient)
+            .baseUrl(Urls.POEM_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
     private val okClient: OkHttpClient by lazy {
         val builder = OkHttpClient.Builder()
             .readTimeout(TIME_OUT, TimeUnit.SECONDS)

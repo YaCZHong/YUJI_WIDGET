@@ -73,6 +73,9 @@ class MainActivity : BaseActivity() {
             setPageTransformer(mAnimator)
         }
 
+        vm.poemLiveData.observe(this, Observer {
+            binding.tvPoem.text = it
+        })
         vm.toastHintLiveData.observe(this, Observer {
             toast(it)
         })
@@ -103,6 +106,8 @@ class MainActivity : BaseActivity() {
                 }
             })
         }
+
+        vm.getPoem()
     }
 
     private fun updateCity(city: City, timeLimit: Boolean = true) {
@@ -116,7 +121,7 @@ class MainActivity : BaseActivity() {
         val mBottomSheetDialog = BottomSheetDialog(this)
         val view = layoutInflater.inflate(R.layout.dialog_bottom_sheet, null)
         view.findViewById<TextView>(R.id.tv_widget).setOnClickListener {
-            vm.makeCityToWidget(city)
+            vm.makeCityToWidget(city.copy())
             mBottomSheetDialog.dismiss()
         }
         view.findViewById<TextView>(R.id.tv_delete).setOnClickListener {

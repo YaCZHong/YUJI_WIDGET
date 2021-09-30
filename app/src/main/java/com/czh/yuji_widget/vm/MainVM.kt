@@ -1,11 +1,13 @@
 package com.czh.yuji_widget.vm
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.czh.yuji_widget.db.AppDatabase
 import com.czh.yuji_widget.db.City
 import com.czh.yuji_widget.http.repo.WeatherRepo
 import com.czh.yuji_widget.util.GsonUtils
 import com.czh.yuji_widget.appwidget.notifyWidgetUpdate
+import com.czh.yuji_widget.http.repo.PoemRepo
 import com.czh.yuji_widget.http.response.Weather7DResponse
 import com.czh.yuji_widget.http.response.WeatherNowResponse
 import kotlinx.coroutines.Dispatchers
@@ -14,6 +16,23 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MainVM : BaseVM() {
+
+    var poemLiveData: MutableLiveData<String> = MutableLiveData()
+
+    fun getPoem() {
+        viewModelScope.launch(Dispatchers.IO) {
+            handleLoadingStatus(true)
+            try {
+                val poem = PoemRepo.getPoem().data.content
+                poemLiveData.postValue(poem)
+            } catch (e: Exception) {
+                toastHintLiveData.postValue("获取古诗词失败")
+                e.printStackTrace()
+            } finally {
+                handleLoadingStatus(false)
+            }
+        }
+    }
 
     fun getWeather(city: City) {
         viewModelScope.launch(Dispatchers.IO) {
