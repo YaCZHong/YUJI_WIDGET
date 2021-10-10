@@ -30,7 +30,14 @@ class MainActivity : BaseActivity() {
     private val mAnimator = ViewPager2.PageTransformer { page, position ->
         val absPos = abs(position)
         page.apply {
-            val scale = if (absPos > 1) 0F else 1 - 0.1f * absPos
+//            val scale = if (absPos > 1) 0F else 1 - 0.1f * absPos
+            val scale = if (absPos <= 1) {
+                1 - 0.1f * absPos
+            } else if (absPos > 1 && absPos < 2) {
+                0.9f - 0.1f * (absPos - 1)
+            } else {
+                0f
+            }
             scaleX = scale
             scaleY = scale
         }
