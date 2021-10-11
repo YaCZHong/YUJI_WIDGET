@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.czh.yuji_widget.http.repo.CityRepo
 import com.czh.yuji_widget.http.response.Location
+import com.czh.yuji_widget.util.AppCoroutine
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -17,7 +18,7 @@ class AddCityVM : BaseVM() {
             toastHintLiveData.value = "请输入城市名"
             return
         }
-        viewModelScope.launch(Dispatchers.Main) {
+        viewModelScope.launch(AppCoroutine.Main) {
             handleLoadingStatus(true)
             try {
                 val response = withContext(Dispatchers.IO) {

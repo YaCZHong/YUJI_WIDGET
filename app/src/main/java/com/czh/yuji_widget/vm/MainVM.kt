@@ -21,10 +21,12 @@ class MainVM : BaseVM() {
     var poemLiveData: MutableLiveData<String> = MutableLiveData()
 
     fun getPoem() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(AppCoroutine.Main) {
             handleLoadingStatus(true)
             try {
-                val poem = PoemRepo.getPoem().data.content
+                val poem = withContext(Dispatchers.IO) {
+                    PoemRepo.getPoem().data.content
+                }
                 poemLiveData.postValue(poem)
             } catch (e: Exception) {
                 toastHintLiveData.postValue("获取古诗词失败")
@@ -36,7 +38,7 @@ class MainVM : BaseVM() {
     }
 
     fun getWeather(city: City) {
-        viewModelScope.launch(AppCoroutine.IO) {
+        viewModelScope.launch(AppCoroutine.Main) {
             handleLoadingStatus(true)
             try {
                 val data1 = async { getWeatherNow(city) }
