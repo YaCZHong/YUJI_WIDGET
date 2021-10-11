@@ -11,7 +11,7 @@
     </style>
 
     <style name="MainActivityTheme" parent="Theme.YUJI_WIDGET_NO_ACTIONBAR">
-        <item name="android:windowFullscreen">true</item>
+        <item name="colorPrimaryDark">@color/transparent</item>
     </style>
 
     <!--CollapsingToolbarLayout折叠时标题文字样式-->

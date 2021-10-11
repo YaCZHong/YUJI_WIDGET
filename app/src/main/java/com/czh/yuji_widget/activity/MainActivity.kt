@@ -19,6 +19,7 @@ import com.czh.yuji_widget.util.dp2px
 import com.czh.yuji_widget.util.toast.toast
 import com.czh.yuji_widget.vm.MainVM
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.gyf.immersionbar.ImmersionBar
 import kotlinx.coroutines.launch
 import kotlin.math.abs
 
@@ -53,6 +54,11 @@ class MainActivity : BaseActivity() {
     }
 
     private fun init() {
+
+        ImmersionBar.with(this)
+            .statusBarDarkFont(true)
+            .init()
+
         binding.fab.setOnClickListener {
             val intent = Intent(this, AddCityActivity::class.java)
             startActivity(intent)

@@ -10,6 +10,7 @@ import com.czh.yuji_widget.appwidget.notifyWidgetUpdate
 import com.czh.yuji_widget.http.repo.PoemRepo
 import com.czh.yuji_widget.http.response.Weather7DResponse
 import com.czh.yuji_widget.http.response.WeatherNowResponse
+import com.czh.yuji_widget.util.AppCoroutine
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -35,7 +36,7 @@ class MainVM : BaseVM() {
     }
 
     fun getWeather(city: City) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(AppCoroutine.IO) {
             handleLoadingStatus(true)
             try {
                 val data1 = async { getWeatherNow(city) }
