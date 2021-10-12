@@ -11,9 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.czh.yuji_widget.R
 import com.czh.yuji_widget.db.City
+import com.czh.yuji_widget.http.response.Daily
 import com.czh.yuji_widget.http.response.Now
 import com.czh.yuji_widget.util.GsonUtils
 import com.czh.yuji_widget.util.getIcon
+import com.czh.yuji_widget.util.getWeek
+import com.czh.yuji_widget.util.parseTime
+import com.google.gson.reflect.TypeToken
 
 class MainCityAdapter(private val listener: OnItemClickListener<City>) :
     RecyclerView.Adapter<MainCityAdapter.ViewHolder>() {
@@ -42,12 +46,36 @@ class MainCityAdapter(private val listener: OnItemClickListener<City>) :
 
     class ViewHolder(view: View, listener: OnItemClickListener<City>) :
         RecyclerView.ViewHolder(view) {
-
-        private val ivWeatherNow: ImageView = itemView.findViewById(R.id.iv_weather_now)
+        private val tvUpdateTime: TextView = itemView.findViewById(R.id.tv_update_time)
         private val tvCity: TextView = itemView.findViewById(R.id.tv_city)
-        private val tvWeatherNow: TextView = itemView.findViewById(R.id.tv_weather_now)
-        private val tvOverdueHint: TextView = itemView.findViewById(R.id.tv_overdue_hint)
         private val ivWidgetMark: ImageView = itemView.findViewById(R.id.iv_widget_mark)
+        private val ivWeatherNow: ImageView = itemView.findViewById(R.id.iv_weather_now)
+        private val tvWeatherNowTemp: TextView = itemView.findViewById(R.id.tv_weather_now_temp)
+
+        private val tvDate1: TextView = itemView.findViewById(R.id.tv_date_1)
+        private val tvDate2: TextView = itemView.findViewById(R.id.tv_date_2)
+        private val tvDate3: TextView = itemView.findViewById(R.id.tv_date_3)
+        private val tvDate4: TextView = itemView.findViewById(R.id.tv_date_4)
+        private val tvDate5: TextView = itemView.findViewById(R.id.tv_date_5)
+
+        private val ivWeather1: ImageView = itemView.findViewById(R.id.iv_weather_1)
+        private val ivWeather2: ImageView = itemView.findViewById(R.id.iv_weather_2)
+        private val ivWeather3: ImageView = itemView.findViewById(R.id.iv_weather_3)
+        private val ivWeather4: ImageView = itemView.findViewById(R.id.iv_weather_4)
+        private val ivWeather5: ImageView = itemView.findViewById(R.id.iv_weather_5)
+
+        private val tvTempRange1: TextView = itemView.findViewById(R.id.tv_temp_range_1)
+        private val tvTempRange2: TextView = itemView.findViewById(R.id.tv_temp_range_2)
+        private val tvTempRange3: TextView = itemView.findViewById(R.id.tv_temp_range_3)
+        private val tvTempRange4: TextView = itemView.findViewById(R.id.tv_temp_range_4)
+        private val tvTempRange5: TextView = itemView.findViewById(R.id.tv_temp_range_5)
+
+        private val tvDateList = listOf(tvDate1, tvDate2, tvDate3, tvDate4, tvDate5)
+        private val ivWeatherList =
+            listOf(ivWeather1, ivWeather2, ivWeather3, ivWeather4, ivWeather5)
+        private val tvTempRangeList =
+            listOf(tvTempRange1, tvTempRange2, tvTempRange3, tvTempRange4, tvTempRange5)
+
         private var currentCity: City? = null
 
         init {
@@ -67,27 +95,53 @@ class MainCityAdapter(private val listener: OnItemClickListener<City>) :
 
         fun bind(city: City) {
             currentCity = city
+            tvUpdateTime.text = parseTime(city.updateTime)
             if (city.city.length > 8) {
                 tvCity.textSize = 16f
             } else {
                 tvCity.textSize = 20f
             }
             tvCity.text = city.city
-            tvOverdueHint.visibility =
-                if (System.currentTimeMillis() - city.updateTime > 30 * 60 * 1000) View.VISIBLE else View.GONE
+//            tvOverdueHint.visibility =
+//                if (System.currentTimeMillis() - city.updateTime > 30 * 60 * 1000) View.VISIBLE else View.GONE
             ivWidgetMark.visibility = if (city.isWidgetCity()) View.VISIBLE else View.GONE
-            if (!TextUtils.isEmpty(city.weatherNowJson)) {
-                try {
+
+            try {
+                if (!TextUtils.isEmpty(city.weatherNowJson)) {
                     val weatherNow =
                         GsonUtils.instance.fromJson(city.weatherNowJson, Now::class.java)
-                    Glide.with(ivWeatherNow.context).load(getIcon(weatherNow.icon))
-                        .override(120, 120)
-                        .into(ivWeatherNow)
-                    tvWeatherNow.text = "${weatherNow.text}，${weatherNow.temp}℃"
-                } catch (e: Exception) {
-                    e.printStackTrace()
+                    updateWeatherNowUI(weatherNow)
                 }
+
+                if (!TextUtils.isEmpty(city.weatherDailyJson)) {
+                    val weatherDailies = GsonUtils.instance.fromJson<List<Daily>>(
+                        city.weatherDailyJson,
+                        object : TypeToken<List<Daily>>() {}.type
+                    )
+                    updateWeatherDailyUI(weatherDailies)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+        private fun updateWeatherNowUI(weatherNow: Now) {
+            Glide.with(ivWeatherNow.context).load(getIcon(weatherNow.icon))
+                .override(120, 120)
+                .into(ivWeatherNow)
+            tvWeatherNowTemp.text = "${weatherNow.temp}°"
+        }
+
+        private fun updateWeatherDailyUI(weatherDailies: List<Daily>) {
+            weatherDailies.forEachIndexed { index, daily ->
+                val array = daily.fxDate.split("-").map { it.toInt() }
+                tvDateList[index].text = getWeek(array[0], array[1], array[2])
+                Glide.with(ivWeatherList[index].context).load(getIcon(daily.iconDay))
+                    .override(48, 48)
+                    .into(ivWeatherList[index])
+                tvTempRangeList[index].text = "${daily.tempMax}/${daily.tempMin}"
             }
         }
     }
+
 }
