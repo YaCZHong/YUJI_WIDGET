@@ -48,7 +48,6 @@ class MainCityAdapter(private val listener: OnItemClickListener<City>) :
         RecyclerView.ViewHolder(view) {
         private val tvUpdateTime: TextView = itemView.findViewById(R.id.tv_update_time)
         private val tvCity: TextView = itemView.findViewById(R.id.tv_city)
-        private val ivWidgetMark: ImageView = itemView.findViewById(R.id.iv_widget_mark)
         private val ivWeatherNow: ImageView = itemView.findViewById(R.id.iv_weather_now)
         private val tvWeatherNowTemp: TextView = itemView.findViewById(R.id.tv_weather_now_temp)
 
@@ -96,15 +95,10 @@ class MainCityAdapter(private val listener: OnItemClickListener<City>) :
         fun bind(city: City) {
             currentCity = city
             tvUpdateTime.text = parseTime(city.updateTime)
-            if (city.city.length > 8) {
-                tvCity.textSize = 16f
-            } else {
-                tvCity.textSize = 20f
-            }
             tvCity.text = city.city
 //            tvOverdueHint.visibility =
 //                if (System.currentTimeMillis() - city.updateTime > 30 * 60 * 1000) View.VISIBLE else View.GONE
-            ivWidgetMark.visibility = if (city.isWidgetCity()) View.VISIBLE else View.GONE
+            tvCity.isSelected = city.isWidgetCity()
 
             try {
                 if (!TextUtils.isEmpty(city.weatherNowJson)) {
@@ -127,7 +121,7 @@ class MainCityAdapter(private val listener: OnItemClickListener<City>) :
 
         private fun updateWeatherNowUI(weatherNow: Now) {
             Glide.with(ivWeatherNow.context).load(getIcon(weatherNow.icon))
-                .override(120, 120)
+                .override(140, 140)
                 .into(ivWeatherNow)
             tvWeatherNowTemp.text = "${weatherNow.temp}°"
         }
@@ -137,11 +131,10 @@ class MainCityAdapter(private val listener: OnItemClickListener<City>) :
                 val array = daily.fxDate.split("-").map { it.toInt() }
                 tvDateList[index].text = getWeek(array[0], array[1], array[2])
                 Glide.with(ivWeatherList[index].context).load(getIcon(daily.iconDay))
-                    .override(48, 48)
+                    .override(60, 60)
                     .into(ivWeatherList[index])
                 tvTempRangeList[index].text = "${daily.tempMax}/${daily.tempMin}"
             }
         }
     }
-
 }

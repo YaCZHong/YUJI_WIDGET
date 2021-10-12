@@ -7,15 +7,15 @@
     android:background="@drawable/shape_gradient_ffffff_cfd8dc"
     tools:context=".activity.MainActivity">
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_poem"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="28dp"
         android:layout_marginBottom="36dp"
-        android:autoSizeMaxTextSize="18sp"
-        android:autoSizeMinTextSize="10sp"
-        android:autoSizeStepGranularity="2sp"
-        android:autoSizeTextType="uniform"
+        app:autoSizeMaxTextSize="20sp"
+        app:autoSizeMinTextSize="10sp"
+        app:autoSizeStepGranularity="2sp"
+        app:autoSizeTextType="uniform"
         android:fontFamily="@font/my_font"
         android:gravity="bottom"
         android:lineSpacingExtra="4dp"
