@@ -9,6 +9,7 @@ import android.content.Intent
 import android.widget.RemoteViews
 import com.czh.yuji_widget.activity.MainActivity
 import com.czh.yuji_widget.R
+import com.czh.yuji_widget.config.AppConfig
 import com.czh.yuji_widget.db.AppDatabase
 import com.czh.yuji_widget.db.City
 import com.czh.yuji_widget.http.response.Daily
@@ -23,6 +24,20 @@ import kotlinx.coroutines.withContext
 
 class DetailAppWidgetProvider : AppWidgetProvider() {
 
+    private val jumpAppIntent = Intent(AppConfig.mContext, MainActivity::class.java).let { intent ->
+        PendingIntent.getActivity(AppConfig.mContext, 0, intent, 0)
+    }
+    private val jumpAlarmIntent = Intent("android.intent.action.SHOW_ALARMS").let { intent ->
+        PendingIntent.getActivity(AppConfig.mContext, 0, intent, 0)
+    }
+//    private val jumpCalendarIntent = Intent().let { intent ->
+//        intent.component = ComponentName(
+//            "com.android.calendar",
+//            "com.android.calendar.LaunchActivity"
+//        )
+//        PendingIntent.getActivity(AppConfig.mContext, 0, intent, 0)
+//    }
+
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
         when (intent.action) {
@@ -36,11 +51,7 @@ class DetailAppWidgetProvider : AppWidgetProvider() {
                         object : TypeToken<List<Daily>>() {}.type
                     )
 
-                    val pendingIntent = Intent(context, MainActivity::class.java).let { intent ->
-                        PendingIntent.getActivity(context, 0, intent, 0)
-                    }
-
-                    val remoteViews = getRemoteViews(context, city, weatherDailies, pendingIntent)
+                    val remoteViews = getRemoteViews(context, city, weatherDailies)
                     AppWidgetManager.getInstance(context).updateAppWidget(
                         ComponentName(context, DetailAppWidgetProvider::class.java),
                         remoteViews
@@ -64,12 +75,8 @@ class DetailAppWidgetProvider : AppWidgetProvider() {
                 object : TypeToken<List<Daily>>() {}.type
             )
 
-            val pendingIntent = Intent(context, MainActivity::class.java).let { intent ->
-                PendingIntent.getActivity(context, 0, intent, 0)
-            }
-
             appWidgetIds.forEach { appWidgetId ->
-                val remoteViews = getRemoteViews(context, city, weatherDailies, pendingIntent)
+                val remoteViews = getRemoteViews(context, city, weatherDailies)
                 appWidgetManager.updateAppWidget(appWidgetId, remoteViews)
             }
         }
@@ -78,11 +85,13 @@ class DetailAppWidgetProvider : AppWidgetProvider() {
     private fun getRemoteViews(
         context: Context,
         city: City,
-        weatherDailies: List<Daily>,
-        pendingIntent: PendingIntent
+        weatherDailies: List<Daily>
     ): RemoteViews {
+
         return RemoteViews(context.packageName, R.layout.appwidget_detail).apply {
-            setOnClickPendingIntent(R.id.ll_weather, pendingIntent)
+            setOnClickPendingIntent(R.id.ll_weather, jumpAppIntent)
+            setOnClickPendingIntent(R.id.ll_time, jumpAlarmIntent)
+
             setTextViewText(R.id.tv_city, city.city)
 
             val arrayDay0 = weatherDailies[0].fxDate.split("-").map { it.toInt() }

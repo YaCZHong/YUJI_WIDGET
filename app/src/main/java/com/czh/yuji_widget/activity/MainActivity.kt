@@ -2,6 +2,8 @@ package com.czh.yuji_widget.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -58,6 +60,8 @@ class MainActivity : BaseActivity() {
         ImmersionBar.with(this)
             .statusBarDarkFont(true)
             .init()
+
+        setSupportActionBar(binding.toolBar)
 
         binding.fab.setOnClickListener {
             val intent = Intent(this, AddCityActivity::class.java)
@@ -147,5 +151,23 @@ class MainActivity : BaseActivity() {
         mBottomSheetDialog.setContentView(view)
         mBottomSheetDialog.show()
         VibratorUtils.shortVibrate(this)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.settings -> {
+
+            }
+
+            R.id.about -> {
+
+            }
+        }
+        return true
     }
 }

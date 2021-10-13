@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/shape_ffffffff_radius_8dp">
+    android:background="@drawable/shape_ffc7c7c7_radius_8dp">
 
     <TextView
         android:id="@+id/tv_update_time"
@@ -38,7 +38,6 @@
     <ImageView
         android:id="@+id/iv_weather_now"
         android:layout_width="96dp"
-        android:elevation="10dp"
         android:layout_height="96dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,15 +57,16 @@
         app:layout_constraintBottom_toTopOf="@id/ll_daily_weather"
         app:layout_constraintStart_toStartOf="parent" />
 
-
     <LinearLayout
         android:id="@+id/ll_daily_weather"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="24dp"
+        android:layout_height="0dp"
+        android:background="@drawable/shape_bottom_ffffffff_radius_8dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_percent="0.25"
         app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout

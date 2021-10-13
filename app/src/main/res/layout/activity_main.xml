@@ -5,29 +5,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/shape_gradient_ffffff_cfd8dc"
+    android:fitsSystemWindows="true"
     tools:context=".activity.MainActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title=" " />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_poem"
         android:layout_width="match_parent"
         android:layout_height="28dp"
         android:layout_marginBottom="36dp"
-        app:autoSizeMaxTextSize="20sp"
-        app:autoSizeMinTextSize="10sp"
-        app:autoSizeStepGranularity="2sp"
-        app:autoSizeTextType="uniform"
         android:fontFamily="@font/my_font"
         android:gravity="bottom"
         android:lineSpacingExtra="4dp"
         android:paddingHorizontal="36dp"
         android:textColor="@color/colorTextDark"
+        app:autoSizeMaxTextSize="20sp"
+        app:autoSizeMinTextSize="10sp"
+        app:autoSizeStepGranularity="2sp"
+        app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toTopOf="@id/vp" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/vp"
         android:layout_width="match_parent"
-        android:layout_height="360dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_percent="0.55"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
