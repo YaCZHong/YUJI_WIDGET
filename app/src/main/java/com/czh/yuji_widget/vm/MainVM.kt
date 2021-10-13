@@ -22,7 +22,7 @@ class MainVM : BaseVM() {
 
     fun getPoem() {
         viewModelScope.launch(AppCoroutine.Main) {
-            handleLoadingStatus(true)
+//            handleLoadingStatus(true)
             try {
                 val poem = withContext(Dispatchers.IO) {
                     PoemRepo.getPoem().data.content
@@ -32,7 +32,7 @@ class MainVM : BaseVM() {
                 toastHintLiveData.postValue("获取古诗词失败")
                 e.printStackTrace()
             } finally {
-                handleLoadingStatus(false)
+//                handleLoadingStatus(false)
             }
         }
     }

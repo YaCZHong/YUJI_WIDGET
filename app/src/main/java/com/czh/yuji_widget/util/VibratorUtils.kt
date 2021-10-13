@@ -13,28 +13,25 @@ object VibratorUtils {
 
     /**
      * 开始震动
-     * @param context
      * @param pattern 震动规则
      * @param repeat 循环次数
      */
-    fun startVibrator(context: Context, pattern: LongArray, repeat: Int) {
+    fun startVibrator(pattern: LongArray, repeat: Int) {
         vibrator.cancel()
         vibrator.vibrate(pattern, repeat)
     }
 
     /**
      * 关闭震动
-     *
-     * @param context
      */
-    fun cancelVibrator(context: Context) {
+    fun cancelVibrator() {
         vibrator.cancel()
     }
 
     /**
      * 短震动
      */
-    fun shortVibrate(context: Context) {
+    fun shortVibrate() {
         vibrator.cancel()
         vibrator.vibrate(20)
     }
@@ -42,7 +39,7 @@ object VibratorUtils {
     /**
      * 长震动
      */
-    fun longVibrate(context: Context) {
+    fun longVibrate() {
         vibrator.cancel()
         vibrator.vibrate(500)
     }

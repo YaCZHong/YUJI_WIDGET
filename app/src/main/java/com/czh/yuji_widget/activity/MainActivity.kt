@@ -150,7 +150,7 @@ class MainActivity : BaseActivity() {
         }
         mBottomSheetDialog.setContentView(view)
         mBottomSheetDialog.show()
-        VibratorUtils.shortVibrate(this)
+        VibratorUtils.shortVibrate()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
