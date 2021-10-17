@@ -11,17 +11,14 @@ import com.czh.yuji_widget.http.repo.PoemRepo
 import com.czh.yuji_widget.http.response.Weather7DResponse
 import com.czh.yuji_widget.http.response.WeatherNowResponse
 import com.czh.yuji_widget.util.AppCoroutine
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class MainVM : BaseVM() {
 
     var poemLiveData: MutableLiveData<String> = MutableLiveData()
 
     fun getPoem() {
-        viewModelScope.launch(AppCoroutine.Main) {
+        viewModelScope.launch(Dispatchers.Main) {
 //            handleLoadingStatus(true)
             try {
                 val poem = withContext(Dispatchers.IO) {
@@ -38,7 +35,7 @@ class MainVM : BaseVM() {
     }
 
     fun getWeather(city: City) {
-        viewModelScope.launch(AppCoroutine.Main) {
+        viewModelScope.launch(Dispatchers.Main + AppCoroutine.handler) {
             handleLoadingStatus(true)
             try {
                 val data1 = async { getWeatherNow(city) }
