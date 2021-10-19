@@ -1,5 +1,6 @@
 package com.czh.yuji_widget.vm
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.czh.yuji_widget.db.AppDatabase
@@ -15,7 +16,9 @@ import kotlinx.coroutines.*
 
 class MainVM : BaseVM() {
 
-    var poemLiveData: MutableLiveData<String> = MutableLiveData()
+    private val _poemLiveData = MutableLiveData<String>()
+    val poemLiveData: LiveData<String>
+        get() = _poemLiveData
 
     fun getPoem() {
         viewModelScope.launch(Dispatchers.Main) {
@@ -24,9 +27,9 @@ class MainVM : BaseVM() {
                 val poem = withContext(Dispatchers.IO) {
                     PoemRepo.getPoem().data.content
                 }
-                poemLiveData.postValue(poem)
+                _poemLiveData.value = poem
             } catch (e: Exception) {
-                toastHintLiveData.postValue("获取古诗词失败")
+                toastHintLiveData.value = "获取古诗词失败"
                 e.printStackTrace()
             } finally {
 //                handleLoadingStatus(false)
@@ -42,7 +45,7 @@ class MainVM : BaseVM() {
                 val data2 = async { getWeather7D(city) }
                 updateWeather(city, data1.await(), data2.await())
             } catch (e: Exception) {
-                toastHintLiveData.postValue("获取${city.city}天气失败")
+                toastHintLiveData.value = "获取${city.city}天气失败"
                 e.printStackTrace()
             } finally {
                 handleLoadingStatus(false)
