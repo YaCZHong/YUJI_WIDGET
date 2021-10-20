@@ -1,8 +1,8 @@
 ### 关于协程的一些记录
 
-* 关于`launch`和`async`：
-  1、`launch`和`async`协程中未捕获的异常会立即向上传播到作业层次结构；
-  2、如果顶级协程是在`launch`启动的，则异常由`CoroutineExceptionHandler`处理或传递给线程的未捕获异常处理程序。如果顶级协程是用`async`启动的，则异常被封装在`Deferred`返回类型中，并在调用`.await()`时重新抛出。
+#### 关于`launch`和`async`：
+- `launch`和`async`协程中未捕获的异常会立即向上传播到作业层次结构；
+- 如果顶级协程是在`launch`启动的，则异常由`CoroutineExceptionHandler`处理或传递给线程的未捕获异常处理程序。如果顶级协程是用`async`启动的，则异常被封装在`Deferred`返回类型中，并在调用`.await()`时重新抛出。
 
 
 
