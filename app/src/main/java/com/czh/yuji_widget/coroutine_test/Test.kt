@@ -9,10 +9,8 @@ fun main() {
     val scope = CoroutineScope(Job())
 
     scope.launch {
-        supervisorScope {
-            launch(handler) {
-                throw IllegalArgumentException()
-            }
+        launch(Job() + handler) {
+            throw IllegalArgumentException()
         }
     }
 

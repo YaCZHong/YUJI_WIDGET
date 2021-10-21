@@ -419,3 +419,46 @@ fun main() {
 
 
 参考文章：https://www.lukaslechner.com/why-exception-handling-with-kotlin-coroutines-is-so-hard-and-how-to-successfully-master-it/
+
+
+#### 2021/10/21 加餐
+猜猜下面的运行结果是怎样，`try-catch`是否能够捕获到异常？将`async`传入的`Job`对象换成`SupervisorJob`对象呢？
+```
+fun main() {
+    val scope = CoroutineScope(Job())
+
+    scope.launch {
+        val deferred = async(Job()) {
+            throw IllegalArgumentException()
+        }
+        try {
+            deferred.await()
+        } catch (e: Exception) {
+            println("捕获到异常:$e")
+        }
+    }
+
+    Thread.sleep(100000)
+}
+```
+可以发现，无论是`Job`对象还是`SupervisorJob`对象，`try-catch`都是可以捕获到异常的。
+
+再看看下面这段代码，猜猜运行结果是怎样的？将内部的`launch`中的`Job`对象替换成`SupervisorJob`呢？
+```
+fun main() {
+    val handler = CoroutineExceptionHandler { coroutineContext, throwable ->
+        println("$coroutineContext==>$throwable")
+    }
+    val scope = CoroutineScope(Job())
+
+    scope.launch {
+        launch(Job() + handler) {
+            throw IllegalArgumentException()
+        }
+    }
+
+    Thread.sleep(100000)
+}
+```
+同样可以发现，无论是`Job`对象还是`SupervisorJob`对象，`CoroutineExceptionHandler`都是可以捕获到异常并且正常打印的。
+实际上，无论是`launch`还是async，在通过传入新的`Job`对象或者新的`SupervisorJob`对象来创建协程的时候，新传入的`Job`或`SupervisorJob`将会成为该协程的父作业。这意味着新创建的协程将从原先的作业层次结构中脱离，并且形成一个新的作业层次结构。我们也可以大致理解成形成一个新的作用域，而新创建的协程将成为顶级协程。所以，作为顶级协程，上面两段代码也很好理解了。
