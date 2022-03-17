@@ -59,6 +59,8 @@ class AddCityActivity : BaseActivity() {
     }
 
     private fun initLocation() {
+        AMapLocationClient.updatePrivacyShow(this, true, true)
+        AMapLocationClient.updatePrivacyAgree(this, true)
         val mLocationOption = AMapLocationClientOption().apply {
             locationMode = AMapLocationClientOption.AMapLocationMode.Hight_Accuracy
             isOnceLocation = true
